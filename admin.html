@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Admin Panel</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.5;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .admin-container {
+            display: none;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .btn {
+            padding: 10px 15px;
+            background-color: #4a6ea9;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background-color: #3a5a89;
+        }
+        
+        .error-message {
+            color: #d9534f;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .student-list {
+            margin-top: 20px;
+        }
+        
+        .student-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+        }
+        
+        .student-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .student-name {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .student-score {
+            font-size: 16px;
+            font-weight: bold;
+            color: #4a6ea9;
+        }
+        
+        .student-details {
+            margin-top: 10px;
+        }
+        
+        .section-score {
+            margin: 5px 0;
+        }
+        
+        .question-result {
+            margin: 3px 0;
+            font-size: 14px;
+        }
+        
+        .correct {
+            color: green;
+        }
+        
+        .incorrect {
+            color: red;
+        }
+        
+        .details-toggle {
+            background-color: transparent;
+            border: none;
+            color: #4a6ea9;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        
+        .search-container {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .search-container input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .search-container button {
+            padding: 8px 15px;
+            background-color: #4a6ea9;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        .logout-btn {
+            background-color: #d9534f;
+            margin-top: 20px;
+        }
+        
+        .logout-btn:hover {
+            background-color: #c9302c;
+        }
+        
+        .student-details {
+            display: none;
+        }
+        
+        .export-btn {
+            background-color: #5cb85c;
+            margin-top: 10px;
+        }
+        
+        .export-btn:hover {
+            background-color: #4cae4c;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+        }
+        
+        .tab.active {
+            background-color: #f9f9f9;
+            border-color: #ddd;
+            border-bottom-color: #f9f9f9;
+            margin-bottom: -1px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .student-management {
+            margin-top: 20px;
+        }
+        
+        .student-form {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        
+        .student-form h3 {
+            margin-top: 0;
+        }
+        
+        .student-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .student-table th, .student-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        
+        .student-table th {
+            background-color: #f2f2f2;
+        }
+        
+        .student-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .action-btn {
+            padding: 5px 10px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .edit-btn {
+            background-color: #5bc0de;
+            color: white;
+        }
+        
+        .delete-btn {
+            background-color: #d9534f;
+            color: white;
+        }
+        
+        .success-message {
+            background-color: #dff0d8;
+            color: #3c763d;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .sync-status {
+            text-align: center;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+        }
+        
+        .sync-status.online {
+            color: #28a745;
+        }
+        
+        .sync-status.offline {
+            color: #dc3545;
+        }
+        
+        .loading {
+            text-align: center;
+            margin: 20px 0;
+            font-style: italic;
+            color: #6c757d;
+        }
+        
+        .example-data-btn {
+            background-color: #17a2b8;
+            margin-top: 10px;
+        }
+        
+        .example-data-btn:hover {
+            background-color: #138496;
+        }
+        
+        .student-count {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #4a6ea9;
+            text-align: center;
+        }
+        
+        .authorized-students-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .authorized-students-title {
+            margin: 0;
+            color: #4a6ea9;
+        }
+        
+        .student-table-container {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .connection-retry {
+            background-color: #ffc107;
+            color: #212529;
+            margin-top: 10px;
+        }
+        
+        /* Estilos para la pantalla de autenticación inicial */
+        #initial-auth-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .auth-box {
+            width: 400px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .auth-box h2 {
+            color: #4a6ea9;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        
+        .auth-form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .auth-form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .auth-form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .auth-btn {
+            padding: 12px 20px;
+            background-color: #4a6ea9;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        
+        .auth-btn:hover {
+            background-color: #3a5a89;
+        }
+        
+        .auth-error {
+            color: #d9534f;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        /* Estilos para los botones de acción en las tarjetas de resultados */
+        .student-card-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+        
+        .delete-result-btn {
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        .delete-result-btn:hover {
+            background-color: #c9302c;
+        }
+        
+        .confirm-delete-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 400px;
+            max-width: 90%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-title {
+            margin-top: 0;
+            color: #4a6ea9;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        .modal-cancel-btn {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+        
+        .modal-confirm-btn {
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+
+        /* Estilos para el nuevo overlay de login */
+        #custom-login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000; /* Mayor que otros elementos */
+        }
+
+        .custom-login-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            max-width: 90%;
+        }
+
+        .custom-login-container h2 {
+            margin-top: 0;
+            color: #4a6ea9;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .custom-form-group {
+            margin-bottom: 20px;
+        }
+
+        .custom-form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .custom-form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .custom-login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #4a6ea9;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .custom-login-btn:hover {
+            background-color: #3a5a89;
+        }
+
+        .custom-error-message {
+            color: #d9534f;
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Nuevo overlay de login personalizado -->
+    <div id="custom-login-overlay">
+        <div class="custom-login-container">
+            <h2>Acceso Restringido</h2>
+            <div class="custom-form-group">
+                <label for="custom-user-id">ID de Usuario:</label>
+                <input type="text" id="custom-user-id" placeholder="Ingrese su ID">
+            </div>
+            <div class="custom-form-group">
+                <label for="custom-password">Contraseña:</label>
+                <input type="password" id="custom-password" placeholder="Ingrese su contraseña">
+            </div>
+            <button class="custom-login-btn" id="custom-login-btn">Acceder</button>
+            <div class="custom-error-message" id="custom-error-message">ID o contraseña incorrectos. Por favor intente de nuevo.</div>
+        </div>
+    </div>
+
+    <!-- Pantalla de autenticación inicial (original) -->
+    <div id="initial-auth-container">
+        <div class="auth-box">
+            <h2>Acceso al Panel de Administración</h2>
+            <div class="auth-form-group">
+                <label for="auth-username">Usuario:</label>
+                <input type="text" id="auth-username" placeholder="Ingrese su usuario">
+            </div>
+            <div class="auth-form-group">
+                <label for="auth-password">Contraseña:</label>
+                <input type="password" id="auth-password" placeholder="Ingrese su contraseña">
+            </div>
+            <button type="button" class="auth-btn" id="auth-btn">Iniciar Sesión</button>
+            <div class="auth-error" id="auth-error">Usuario o contraseña incorrectos. Por favor intente de nuevo.</div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación para eliminar resultados -->
+    <div class="confirm-delete-modal" id="confirmDeleteModal">
+        <div class="modal-content">
+            <h3 class="modal-title">Confirmar eliminación</h3>
+            <p>¿Está seguro que desea eliminar este resultado? Esta acción no se puede deshacer.</p>
+            <div class="modal-buttons">
+                <button class="modal-cancel-btn" id="cancelDeleteBtn">Cancelar</button>
+                <button class="modal-confirm-btn" id="confirmDeleteBtn">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="header">
+        <h1>ADMINISTRADOR NOTAS 1</h1>
+        <div id="syncStatus" class="sync-status">Conectando a la base de datos...</div>
+    </div>
+    
+    <div class="login-container" id="loginContainer">
+        <h2>Admin Login</h2>
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" placeholder="Enter admin username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Enter password">
+        </div>
+        <button type="button" class="btn" id="loginBtn">Login</button>
+        <div class="error-message" id="loginError">Invalid username or password. Please try again.</div>
+    </div>
+    
+    <div class="admin-container" id="adminContainer">
+        <div class="tabs">
+            <div class="tab active" data-tab="students">Estudiantes Autorizados</div>
+            <div class="tab" data-tab="results">Resultados del Quiz</div>
+        </div>
+        
+        <div class="tab-content active" id="studentsTab">
+            <div class="authorized-students-header">
+                <h2 class="authorized-students-title">Estudiantes Autorizados para el Quiz</h2>
+                <button id="reconnectBtn" class="btn connection-retry" style="display: none; width: auto;">Reconectar a la base de datos</button>
+            </div>
+            
+            <div id="studentCount" class="student-count">Cargando estudiantes...</div>
+            
+            <div class="student-form">
+                <h3>Añadir/Editar Estudiante</h3>
+                <div class="form-group">
+                    <label for="studentName">Nombre del Estudiante:</label>
+                    <input type="text" id="studentName" placeholder="Ingrese el nombre del estudiante">
+                </div>
+                <div class="form-group">
+                    <label for="studentId">ID del Estudiante:</label>
+                    <input type="text" id="studentId" placeholder="Ingrese el ID del estudiante">
+                </div>
+                <button type="button" class="btn" id="saveStudentBtn">Guardar Estudiante</button>
+                <div class="success-message" id="studentSavedMessage">¡Estudiante guardado exitosamente!</div>
+            </div>
+            
+            <div class="search-container">
+                <input type="text" id="searchStudentInput" placeholder="Buscar por nombre o ID...">
+                <button id="searchStudentBtn">Buscar</button>
+                <button id="clearStudentBtn">Limpiar</button>
+            </div>
+            
+            <div id="loadingStudents" class="loading">Cargando estudiantes...</div>
+            
+            <div class="student-table-container">
+                <table class="student-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>ID</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentTableBody">
+                        <!-- La lista de estudiantes se mostrará aquí -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="resultsTab">
+            <h2>Resultados de Estudiantes</h2>
+            
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Buscar por nombre o ID...">
+                <button id="searchBtn">Buscar</button>
+                <button id="clearBtn">Limpiar</button>
+            </div>
+            
+            <div id="loadingResults" class="loading">Cargando resultados...</div>
+            
+            <div class="student-list" id="studentList">
+                <!-- Los resultados de los estudiantes se mostrarán aquí -->
+            </div>
+            
+            <div class="no-results" id="noResults" style="display: none;">
+                No se encontraron resultados de estudiantes.
+            </div>
+            
+            <button class="btn export-btn" id="exportBtn">Exportar Todos los Resultados (CSV)</button>
+        </div>
+        
+        <button class="btn logout-btn" id="logoutBtn">Cerrar Sesión</button>
+    </div>
+    
+    <script>
+        // Función para mostrar mensajes de depuración en la consola
+        function debug(message) {
+            console.log("[DEBUG] " + message);
+        }
+
+        // Limpiar el estado de autenticación al cargar la página
+        window.addEventListener('load', function() {
+            debug("Página cargada - Limpiando estado de autenticación");
+            localStorage.removeItem('customLoginAuthenticated');
+            localStorage.removeItem('initialAuthDone');
+            localStorage.removeItem('adminLoggedIn');
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            debug("DOM cargado completamente");
+            
+            // Nuevo overlay de login personalizado
+            const customLoginOverlay = document.getElementById('custom-login-overlay');
+            const customLoginBtn = document.getElementById('custom-login-btn');
+            const customErrorMessage = document.getElementById('custom-error-message');
+            const customUserId = document.getElementById('custom-user-id');
+            const customPassword = document.getElementById('custom-password');
+
+            // Pantalla de autenticación inicial
+            const initialAuthContainer = document.getElementById('initial-auth-container');
+
+            debug("Elementos del overlay de login obtenidos");
+
+            // Credenciales correctas para el nuevo login
+            const customCredentials = {
+                id: 'admin',
+                password: 'admin123'
+            };
+
+            debug("Credenciales definidas: " + JSON.stringify(customCredentials));
+
+            // Asegurarse de que el overlay siempre esté visible al cargar la página
+            customLoginOverlay.style.display = 'flex';
+            customUserId.value = '';
+            customPassword.value = '';
+            customErrorMessage.style.display = 'none';
+            
+            // Ocultar la pantalla de autenticación inicial por defecto
+            initialAuthContainer.style.display = 'none';
+
+            // Función de login para el nuevo overlay
+            customLoginBtn.addEventListener('click', function() {
+                debug("Botón de login clickeado");
+                debug("Valores ingresados - ID: " + customUserId.value + ", Password: " + customPassword.value);
+                
+                if (customUserId.value === customCredentials.id && customPassword.value === customCredentials.password) {
+                    debug("Credenciales correctas");
+                    
+                    // Guardar estado de autenticación para todas las capas
+                    localStorage.setItem('customLoginAuthenticated', 'true');
+                    localStorage.setItem('initialAuthDone', 'true');
+                    localStorage.setItem('adminLoggedIn', 'true');
+                    
+                    // Ocultar overlay
+                    customLoginOverlay.style.display = 'none';
+                    initialAuthContainer.style.display = 'none';
+                    debug("Overlays ocultados");
+                    
+                    // Mostrar el panel de administración directamente
+                    showAdminPanel();
+                } else {
+                    debug("Credenciales incorrectas");
+                    // Mostrar mensaje de error
+                    customErrorMessage.style.display = 'block';
+                    
+                    // Limpiar campo de contraseña
+                    customPassword.value = '';
+                }
+            });
+
+            // También permitir login con Enter en el campo de contraseña
+            customPassword.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    debug("Tecla Enter presionada en campo de contraseña");
+                    customLoginBtn.click();
+                }
+            });
+
+            // También permitir login con Enter en el campo de usuario
+            customUserId.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    debug("Tecla Enter presionada en campo de usuario");
+                    customLoginBtn.click();
+                }
+            });
+
+            // Función para cerrar sesión del nuevo sistema
+            window.customLogout = function() {
+                debug("Función de logout llamada");
+                localStorage.removeItem('customLoginAuthenticated');
+                localStorage.removeItem('initialAuthDone');
+                localStorage.removeItem('adminLoggedIn');
+                
+                customLoginOverlay.style.display = 'flex';
+                customUserId.value = '';
+                customPassword.value = '';
+                customErrorMessage.style.display = 'none';
+                
+                adminContainer.style.display = 'none';
+                loginContainer.style.display = 'block';
+                
+                debug("Sesión cerrada y overlay mostrado nuevamente");
+            };
+
+            // Autenticación inicial (original)
+            const authBtn = document.getElementById('auth-btn');
+            const authError = document.getElementById('auth-error');
+            
+            // Modal de confirmación para eliminar resultados
+            const confirmDeleteModal = document.getElementById('confirmDeleteModal');
+            const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+            const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+            let resultToDeleteKey = null;
+            
+            // Credenciales para la autenticación inicial
+            const initialAuthCredentials = {
+                username: 'admin',
+                password: 'admin123'
+            };
+            
+            // Botón de inicio de sesión inicial
+            authBtn.addEventListener('click', function() {
+                const username = document.getElementById('auth-username').value;
+                const password = document.getElementById('auth-password').value;
+                
+                if (username === initialAuthCredentials.username && password === initialAuthCredentials.password) {
+                    localStorage.setItem('initialAuthDone', 'true');
+                    initialAuthContainer.style.display = 'none';
+                } else {
+                    authError.style.display = 'block';
+                }
+            });
+            
+            // Firebase configuration
+            const firebaseConfig = {
+              apiKey: "AIzaSyCrXGgSiRHjTGg8Ve3h7PhkM0hcWlORhcw",
+              authDomain: "ingles-trabajo-colegio.firebaseapp.com",
+              databaseURL: "https://ingles-trabajo-colegio-default-rtdb.firebaseio.com",
+              projectId: "ingles-trabajo-colegio",
+              storageBucket: "ingles-trabajo-colegio.firebasestorage.app",
+              messagingSenderId: "801926533630",
+              appId: "1:801926533630:web:2fde3d43a404da7e2730af"
+            };
+            
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            const database = firebase.database();
+            
+            // Admin credentials (in a real application, this would be server-side)
+            const adminCredentials = {
+                username: 'admin',
+                password: 'admin123'
+            };
+            
+            // DOM elements
+            const loginContainer = document.getElementById('loginContainer');
+            const adminContainer = document.getElementById('adminContainer');
+            const loginBtn = document.getElementById('loginBtn');
+            const loginError = document.getElementById('loginError');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const studentList = document.getElementById('studentList');
+            const noResults = document.getElementById('noResults');
+            const searchInput = document.getElementById('searchInput');
+            const searchBtn = document.getElementById('searchBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const exportBtn = document.getElementById('exportBtn');
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const saveStudentBtn = document.getElementById('saveStudentBtn');
+            const studentNameInput = document.getElementById('studentName');
+            const studentIdInput = document.getElementById('studentId');
+            const studentSavedMessage = document.getElementById('studentSavedMessage');
+            const studentTableBody = document.getElementById('studentTableBody');
+            const searchStudentInput = document.getElementById('searchStudentInput');
+            const searchStudentBtn = document.getElementById('searchStudentBtn');
+            const clearStudentBtn = document.getElementById('clearStudentBtn');
+            const syncStatus = document.getElementById('syncStatus');
+            const loadingResults = document.getElementById('loadingResults');
+            const loadingStudents = document.getElementById('loadingStudents');
+            const studentCount = document.getElementById('studentCount');
+            const reconnectBtn = document.getElementById('reconnectBtn');
+            
+            // Initialize student editing state
+            let editingStudentKey = null;
+            let quizResults = [];
+            let authorizedStudents = [];
+            let isConnected = false;
+            
+            // Example students data
+            const exampleStudents = [
+                { name: "Juan Pérez", id: "A12345" },
+                { name: "María García", id: "B67890" },
+                { name: "Carlos Rodríguez", id: "C13579" },
+                { name: "Ana Martínez", id: "D24680" },
+                { name: "Luis González", id: "E97531" },
+                { name: "Sofia López", id: "F86420" },
+                { name: "Miguel Hernández", id: "G75319" },
+                { name: "Laura Sánchez", id: "H64208" },
+                { name: "Pedro Ramírez", id: "I53197" },
+                { name: "Carmen Torres", id: "J42086" }
+            ];
+            
+            // Funciones para el modal de confirmación
+            function showDeleteConfirmation(resultKey) {
+                resultToDeleteKey = resultKey;
+                confirmDeleteModal.style.display = 'flex';
+            }
+            
+            function hideDeleteConfirmation() {
+                confirmDeleteModal.style.display = 'none';
+                resultToDeleteKey = null;
+            }
+            
+            // Botones del modal de confirmación
+            cancelDeleteBtn.addEventListener('click', hideDeleteConfirmation);
+            
+            confirmDeleteBtn.addEventListener('click', function() {
+                if (resultToDeleteKey && isConnected) {
+                    // Eliminar el resultado de la base de datos
+                    database.ref('quizResults/' + resultToDeleteKey).remove()
+                        .then(() => {
+                            console.log('Resultado eliminado correctamente');
+                            hideDeleteConfirmation();
+                            
+                            // Mostrar mensaje de éxito
+                            const successMessage = document.createElement('div');
+                            successMessage.className = 'success-message';
+                            successMessage.style.display = 'block';
+                            successMessage.textContent = 'Resultado eliminado exitosamente';
+                            
+                            // Insertar el mensaje antes de la lista de estudiantes
+                            const resultsTab = document.getElementById('resultsTab');
+                            resultsTab.insertBefore(successMessage, document.getElementById('studentList').previousElementSibling);
+                            
+                            // Ocultar el mensaje después de 3 segundos
+                            setTimeout(() => {
+                                successMessage.remove();
+                            }, 3000);
+                        })
+                        .catch(error => {
+                            alert('Error al eliminar resultado: ' + error.message);
+                            hideDeleteConfirmation();
+                        });
+                } else {
+                    alert('No hay conexión a la base de datos o el resultado no existe.');
+                    hideDeleteConfirmation();
+                }
+            });
+            
+            // Check connection status and retry mechanism
+            function checkConnection() {
+                const connectedRef = database.ref('.info/connected');
+                connectedRef.on('value', (snap) => {
+                    if (snap.val() === true) {
+                        syncStatus.textContent = 'Conectado a la base de datos - Los datos se sincronizarán automáticamente';
+                        syncStatus.className = 'sync-status online';
+                        reconnectBtn.style.display = 'none';
+                        isConnected = true;
+                        
+                        // Load data once connected
+                        if (localStorage.getItem('adminLoggedIn') === 'true') {
+                            loadAuthorizedStudents();
+                            loadQuizResults();
+                        }
+                    } else {
+                        syncStatus.textContent = 'Desconectado de la base de datos - Los cambios no se sincronizarán';
+                        syncStatus.className = 'sync-status offline';
+                        reconnectBtn.style.display = 'block';
+                        isConnected = false;
+                    }
+                });
+            }
+            
+            // Reconnect button click
+            reconnectBtn.addEventListener('click', function() {
+                syncStatus.textContent = 'Intentando reconectar a la base de datos...';
+                database.goOnline();
+                setTimeout(checkConnection, 2000);
+            });
+            
+            // Load authorized students
+            function loadAuthorizedStudents() {
+                loadingStudents.style.display = 'block';
+                
+                database.ref('authorizedStudents').once('value')
+                    .then((snapshot) => {
+                        if (snapshot.exists()) {
+                            const data = snapshot.val();
+                            authorizedStudents = Object.keys(data).map(key => ({
+                                key,
+                                ...data[key]
+                            }));
+                            displayStudentTable();
+                            updateStudentCount();
+                        } else {
+                            // No hay estudiantes, añadir los ejemplos
+                            addExampleStudents().then(() => {
+                                // Después de añadir los estudiantes, volver a cargar la lista
+                                database.ref('authorizedStudents').once('value')
+                                    .then((newSnapshot) => {
+                                        if (newSnapshot.exists()) {
+                                            const newData = newSnapshot.val();
+                                            authorizedStudents = Object.keys(newData).map(key => ({
+                                                key,
+                                                ...newData[key]
+                                            }));
+                                            displayStudentTable();
+                                            updateStudentCount();
+                                        }
+                                    });
+                            });
+                        }
+                        loadingStudents.style.display = 'none';
+                    })
+                    .catch(error => {
+                        console.error("Error al cargar estudiantes:", error);
+                        loadingStudents.style.display = 'none';
+                        alert("Error al cargar estudiantes: " + error.message);
+                    });
+                
+                // También configurar el listener para cambios futuros
+                database.ref('authorizedStudents').on('value', (snapshot) => {
+                    if (snapshot.exists()) {
+                        const data = snapshot.val();
+                        authorizedStudents = Object.keys(data).map(key => ({
+                            key,
+                            ...data[key]
+                        }));
+                        displayStudentTable();
+                        updateStudentCount();
+                    } else {
+                        authorizedStudents = [];
+                        displayStudentTable();
+                        updateStudentCount();
+                    }
+                });
+            }
+            
+            // Load quiz results
+            function loadQuizResults() {
+                loadingResults.style.display = 'block';
+                
+                database.ref('quizResults').once('value')
+                    .then((snapshot) => {
+                        loadingResults.style.display = 'none';
+                        
+                        if (snapshot.exists()) {
+                            const data = snapshot.val();
+                            quizResults = Object.keys(data).map(key => ({
+                                key,
+                                ...data[key]
+                            }));
+                            displayStudentResults();
+                        } else {
+                            quizResults = [];
+                            displayStudentResults();
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error al cargar resultados:", error);
+                        loadingResults.style.display = 'none';
+                        alert("Error al cargar resultados: " + error.message);
+                    });
+                
+                // También configurar el listener para cambios futuros
+                database.ref('quizResults').on('value', (snapshot) => {
+                    if (snapshot.exists()) {
+                        const data = snapshot.val();
+                        quizResults = Object.keys(data).map(key => ({
+                            key,
+                            ...data[key]
+                        }));
+                        displayStudentResults();
+                    } else {
+                        quizResults = [];
+                        displayStudentResults();
+                    }
+                });
+            }
+            
+            // Initialize connection
+            checkConnection();
+            
+            // Show admin panel function
+            function showAdminPanel() {
+                debug("Mostrando panel de administración");
+                loginContainer.style.display = 'none';
+                adminContainer.style.display = 'block';
+                
+                if (isConnected) {
+                    loadAuthorizedStudents();
+                    loadQuizResults();
+                } else {
+                    syncStatus.textContent = 'Desconectado de la base de datos - Por favor reconecte para ver los datos';
+                    syncStatus.className = 'sync-status offline';
+                    reconnectBtn.style.display = 'block';
+                }
+            }
+            
+            // Tab switching
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab') + 'Tab';
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Login button click
+            loginBtn.addEventListener('click', function() {
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                if (username === adminCredentials.username && password === adminCredentials.password) {
+                    localStorage.setItem('adminLoggedIn', 'true');
+                    showAdminPanel();
+                } else {
+                    loginError.style.display = 'block';
+                }
+            });
+            
+            // Logout button click
+            logoutBtn.addEventListener('click', function() {
+                window.customLogout();
+            });
+            
+            // Search functionality for quiz results
+            searchBtn.addEventListener('click', function() {
+                const searchTerm = searchInput.value.toLowerCase();
+                displayStudentResults(searchTerm);
+            });
+            
+            // Clear search for quiz results
+            clearBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                displayStudentResults();
+            });
+            
+            // Export results as CSV
+            exportBtn.addEventListener('click', function() {
+                exportResultsAsCSV();
+            });
+            
+            // Save student button click
+            saveStudentBtn.addEventListener('click', function() {
+                const name = studentNameInput.value.trim();
+                const id = studentIdInput.value.trim();
+                
+                if (!name || !id) {
+                    alert('Por favor ingrese tanto el nombre como el ID.');
+                    return;
+                }
+                
+                if (!isConnected) {
+                    alert('No hay conexión a la base de datos. Por favor reconecte antes de guardar.');
+                    return;
+                }
+                
+                const studentData = { name, id };
+                
+                if (editingStudentKey) {
+                    // Update existing student
+                    database.ref('authorizedStudents/' + editingStudentKey).set(studentData)
+                        .then(() => {
+                            // Clear form and reset editing state
+                            studentNameInput.value = '';
+                            studentIdInput.value = '';
+                            editingStudentKey = null;
+                            
+                            // Show success message
+                            studentSavedMessage.style.display = 'block';
+                            setTimeout(() => {
+                                studentSavedMessage.style.display = 'none';
+                            }, 3000);
+                        })
+                        .catch(error => {
+                            alert('Error al actualizar estudiante: ' + error.message);
+                        });
+                } else {
+                    // Add new student
+                    database.ref('authorizedStudents').push(studentData)
+                        .then(() => {
+                            // Clear form
+                            studentNameInput.value = '';
+                            studentIdInput.value = '';
+                            
+                            // Show success message
+                            studentSavedMessage.style.display = 'block';
+                            setTimeout(() => {
+                                studentSavedMessage.style.display = 'none';
+                            }, 3000);
+                        })
+                        .catch(error => {
+                            alert('Error al añadir estudiante: ' + error.message);
+                        });
+                }
+            });
+            
+            // Search functionality for student management
+            searchStudentBtn.addEventListener('click', function() {
+                const searchTerm = searchStudentInput.value.toLowerCase();
+                displayStudentTable(searchTerm);
+            });
+            
+            // Clear search for student management
+            clearStudentBtn.addEventListener('click', function() {
+                searchStudentInput.value = '';
+                displayStudentTable();
+            });
+            
+            // Actualizar el contador de estudiantes
+            function updateStudentCount() {
+                studentCount.textContent = `Total de Estudiantes Autorizados: ${authorizedStudents.length}`;
+            }
+            
+            // Add example students to the database
+            function addExampleStudents() {
+                const batch = {};
+                
+                // Create a batch update object
+                exampleStudents.forEach((student, index) => {
+                    const key = `example_student_${index}`;
+                    batch[key] = student;
+                });
+                
+                // Update the database with all students at once and return the promise
+                return database.ref('authorizedStudents').update(batch)
+                    .then(() => {
+                        console.log('Estudiantes de ejemplo añadidos correctamente.');
+                    })
+                    .catch(error => {
+                        console.error('Error al añadir estudiantes de ejemplo:', error);
+                        alert('Error al añadir estudiantes de ejemplo: ' + error.message);
+                    });
+            }
+            
+            // Display student results
+            function displayStudentResults(searchTerm = '') {
+                studentList.innerHTML = '';
+                
+                if (quizResults.length === 0) {
+                    noResults.style.display = 'block';
+                    return;
+                }
+                
+                let filteredResults = quizResults;
+                
+                // Filter results if search term provided
+                if (searchTerm) {
+                    filteredResults = quizResults.filter(result => 
+                        result.studentName.toLowerCase().includes(searchTerm) || 
+                        result.studentId.toLowerCase().includes(searchTerm)
+                    );
+                }
+                
+                if (filteredResults.length === 0) {
+                    noResults.style.display = 'block';
+                    return;
+                }
+                
+                noResults.style.display = 'none';
+                
+                // Sort by date (newest first)
+                filteredResults.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                
+                // Create student cards
+                filteredResults.forEach((result, index) => {
+                    const studentCard = document.createElement('div');
+                    studentCard.className = 'student-card';
+                    
+                    const studentHeader = document.createElement('div');
+                    studentHeader.className = 'student-header';
+                    
+                    const studentInfo = document.createElement('div');
+                    studentInfo.className = 'student-info';
+                    studentInfo.innerHTML = `
+                        <div class="student-name">${result.studentName} (ID: ${result.studentId})</div>
+                        <div>Fecha: ${new Date(result.timestamp).toLocaleString()}</div>
+                    `;
+                    
+                    const studentScore = document.createElement('div');
+                    studentScore.className = 'student-score';
+                    studentScore.textContent = `${result.percentage}% (${result.totalScore}/${result.totalQuestions})`;
+                    
+                    studentHeader.appendChild(studentInfo);
+                    studentHeader.appendChild(studentScore);
+                    
+                    const detailsToggle = document.createElement('button');
+                    detailsToggle.className = 'details-toggle';
+                    detailsToggle.textContent = 'Mostrar Detalles';
+                    detailsToggle.dataset.index = index;
+                    
+                    const studentDetails = document.createElement('div');
+                    studentDetails.className = 'student-details';
+                    studentDetails.id = `details-${index}`;
+                    
+                    // Section scores
+                    let sectionScoresHTML = '<h4>Puntuaciones por Sección:</h4>';
+                    const sectionQuestions = [15, 10, 10, 5];
+                    
+                    for (let i = 0; i < 4; i++) {
+                        const sectionPercentage = Math.round((result.sectionScores[i] / sectionQuestions[i]) * 100);
+                        sectionScoresHTML += `
+                            <div class="section-score">
+                                <strong>Sección ${i+1}:</strong> ${result.sectionScores[i]}/${sectionQuestions[i]} (${sectionPercentage}%)
+                            </div>
+                        `;
+                    }
+                    
+                    // Question results
+                    let questionResultsHTML = '<h4>Resultados por Pregunta:</h4>';
+                    result.questionResults.forEach(qResult => {
+                        const resultClass = qResult.isCorrect ? 'correct' : 'incorrect';
+                        questionResultsHTML += `
+                            <div class="question-result">
+                                Pregunta ${qResult.question}: 
+                                <span class="${resultClass}">
+                                    ${qResult.userAnswer} ${qResult.isCorrect ? '✓' : '✗'}
+                                </span>
+                                ${!qResult.isCorrect ? ` (Correcta: ${qResult.correctAnswer})` : ''}
+                            </div>
+                        `;
+                    });
+                    
+                    studentDetails.innerHTML = sectionScoresHTML + questionResultsHTML;
+                    
+                    // Añadir botón para eliminar resultado
+                    const studentCardActions = document.createElement('div');
+                    studentCardActions.className = 'student-card-actions';
+                    
+                    const deleteResultBtn = document.createElement('button');
+                    deleteResultBtn.className = 'delete-result-btn';
+                    deleteResultBtn.textContent = 'Eliminar Resultado';
+                    deleteResultBtn.dataset.key = result.key;
+                    
+                    deleteResultBtn.addEventListener('click', function() {
+                        const resultKey = this.dataset.key;
+                        showDeleteConfirmation(resultKey);
+                    });
+                    
+                    studentCardActions.appendChild(deleteResultBtn);
+                    
+                    studentCard.appendChild(studentHeader);
+                    studentCard.appendChild(detailsToggle);
+                    studentCard.appendChild(studentDetails);
+                    studentCard.appendChild(studentCardActions);
+                    
+                    studentList.appendChild(studentCard);
+                    
+                    // Toggle details
+                    detailsToggle.addEventListener('click', function() {
+                        const detailsElement = document.getElementById(`details-${this.dataset.index}`);
+                        if (detailsElement.style.display === 'block') {
+                            detailsElement.style.display = 'none';
+                            this.textContent = 'Mostrar Detalles';
+                        } else {
+                            detailsElement.style.display = 'block';
+                            this.textContent = 'Ocultar Detalles';
+                        }
+                    });
+                });
+            }
+            
+            // Display student table
+            function displayStudentTable(searchTerm = '') {
+                studentTableBody.innerHTML = '';
+                
+                let filteredStudents = authorizedStudents;
+                
+                // Filter students if search term provided
+                if (searchTerm) {
+                    filteredStudents = authorizedStudents.filter(student => 
+                        student.name.toLowerCase().includes(searchTerm) || 
+                        student.id.toLowerCase().includes(searchTerm)
+                    );
+                }
+                
+                // Sort alphabetically by name
+                filteredStudents.sort((a, b) => a.name.localeCompare(b.name));
+                
+                // Create table rows
+                filteredStudents.forEach((student) => {
+                    const row = document.createElement('tr');
+                    
+                    const nameCell = document.createElement('td');
+                    nameCell.textContent = student.name;
+                    
+                    const idCell = document.createElement('td');
+                    idCell.textContent = student.id;
+                    
+                    const actionsCell = document.createElement('td');
+                    
+                    const editBtn = document.createElement('button');
+                    editBtn.className = 'action-btn edit-btn';
+                    editBtn.textContent = 'Editar';
+                    editBtn.addEventListener('click', function() {
+                        // Fill form with student data
+                        studentNameInput.value = student.name;
+                        studentIdInput.value = student.id;
+                        editingStudentKey = student.key;
+                        
+                        // Scroll to form
+                        document.querySelector('.student-form').scrollIntoView({ behavior: 'smooth' });
+                    });
+                    
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'action-btn delete-btn';
+                    deleteBtn.textContent = 'Eliminar';
+                    deleteBtn.addEventListener('click', function() {
+                        if (confirm(`¿Está seguro que desea eliminar a ${student.name}?`)) {
+                            // Remove student from database
+                            database.ref('authorizedStudents/' + student.key).remove()
+                                .then(() => {
+                                    console.log('Estudiante eliminado correctamente');
+                                })
+                                .catch(error => {
+                                    alert('Error al eliminar estudiante: ' + error.message);
+                                });
+                        }
+                    });
+                    
+                    actionsCell.appendChild(editBtn);
+                    actionsCell.appendChild(deleteBtn);
+                    
+                    row.appendChild(nameCell);
+                    row.appendChild(idCell);
+                    row.appendChild(actionsCell);
+                    
+                    studentTableBody.appendChild(row);
+                });
+            }
+            
+            // Export results as CSV
+            function exportResultsAsCSV() {
+                if (quizResults.length === 0) {
+                    alert('No hay resultados para exportar.');
+                    return;
+                }
+                
+                // CSV header
+                let csv = 'Nombre del Estudiante,ID del Estudiante,Fecha del Quiz,Puntuación Total,Porcentaje,Sección 1,Sección 2,Sección 3,Sección 4,Timestamp\n';
+                
+                // Add each result as a row
+                quizResults.forEach(result => {
+                    const row = [
+                        `"${result.studentName}"`,
+                        `"${result.studentId}"`,
+                        `"${result.quizDate}"`,
+                        `${result.totalScore}/${result.totalQuestions}`,
+                        `${result.percentage}%`,
+                        `${result.sectionScores[0]}/15`,
+                        `${result.sectionScores[1]}/10`,
+                        `${result.sectionScores[2]}/10`,
+                        `${result.sectionScores[3]}/5`,
+                        `"${new Date(result.timestamp).toLocaleString()}"`
+                    ];
+                    
+                    csv += row.join(',') + '\n';
+                });
+                
+                // Create download link
+                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.setAttribute('href', url);
+                link.setAttribute('download', 'resultados_quiz.csv');
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        });
+    </script>
+</body>
+</html>

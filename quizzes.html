@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELL Placement Test</title>
+    <!-- Firebase SDK - Versión más reciente -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.5;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .quiz-container {
+            display: none;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .btn {
+            padding: 10px 15px;
+            background-color: #4a6ea9;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background-color: #3a5a89;
+        }
+        
+        .error-message {
+            color: #d9534f;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .question-container {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .options-container {
+            margin-left: 20px;
+        }
+        
+        .option {
+            margin-bottom: 8px;
+        }
+        
+        .option input {
+            margin-right: 10px;
+        }
+        
+        .section-title {
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .navigation-buttons .btn {
+            width: auto;
+        }
+        
+        .results-container {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        
+        .results-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .results-score {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4a6ea9;
+            margin-bottom: 15px;
+        }
+        
+        .section-scores {
+            margin-bottom: 20px;
+        }
+        
+        .section-score {
+            margin-bottom: 10px;
+        }
+        
+        .sync-status {
+            text-align: center;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+        }
+        
+        .sync-status.online {
+            color: #28a745;
+        }
+        
+        .sync-status.offline {
+            color: #dc3545;
+        }
+        
+        .debug-info {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+            font-family: monospace;
+            font-size: 12px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>ELL Placement Test</h1>
+        <div id="syncStatus" class="sync-status">Conectando a la base de datos...</div>
+    </div>
+    
+    <div class="login-container" id="loginContainer">
+        <h2>Student Login</h2>
+        <div class="form-group">
+            <label for="studentName">Full Name:</label>
+            <input type="text" id="studentName" placeholder="Enter your full name">
+        </div>
+        <div class="form-group">
+            <label for="studentId">Student ID:</label>
+            <input type="text" id="studentId" placeholder="Enter your student ID">
+        </div>
+        <button type="button" class="btn" id="startBtn">Start Quiz</button>
+        <div class="error-message" id="loginError">You are not authorized to take this quiz. Please contact your administrator.</div>
+        <div style="margin-top: 15px; text-align: center;">
+            <button type="button" id="debugBtn" style="background: none; border: none; color: #6c757d; text-decoration: underline; cursor: pointer; font-size: 12px;">Mostrar información de depuración</button>
+        </div>
+    </div>
+    
+    <div id="debugInfo" class="debug-info"></div>
+    
+    <div class="quiz-container" id="quizContainer">
+        <div id="sectionContainer"></div>
+        
+        <div class="navigation-buttons">
+            <button type="button" class="btn" id="prevBtn" style="display: none;">Previous</button>
+            <button type="button" class="btn" id="nextBtn">Next</button>
+            <button type="button" class="btn" id="submitBtn" style="display: none;">Submit Quiz</button>
+        </div>
+    </div>
+    
+    <div class="results-container" id="resultsContainer">
+        <div class="results-header">
+            <h2>Quiz Results</h2>
+            <div class="results-score" id="resultsScore"></div>
+        </div>
+        
+        <div class="section-scores" id="sectionScores"></div>
+        
+        <p>Thank you for completing the ELL Placement Test. Your results have been recorded.</p>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Firebase configuration - REEMPLAZA ESTO CON TU CONFIGURACIÓN
+            const firebaseConfig = {
+  apiKey: "AIzaSyCrXGgSiRHjTGg8Ve3h7PhkM0hcWlORhcw",
+  authDomain: "ingles-trabajo-colegio.firebaseapp.com",
+  databaseURL: "https://ingles-trabajo-colegio-default-rtdb.firebaseio.com",
+  projectId: "ingles-trabajo-colegio",
+  storageBucket: "ingles-trabajo-colegio.firebasestorage.app",
+  messagingSenderId: "801926533630",
+  appId: "1:801926533630:web:2fde3d43a404da7e2730af"
+};
+            
+            // Debug button
+            const debugBtn = document.getElementById('debugBtn');
+            const debugInfo = document.getElementById('debugInfo');
+            
+            debugBtn.addEventListener('click', function() {
+                if (debugInfo.style.display === 'block') {
+                    debugInfo.style.display = 'none';
+                    debugBtn.textContent = 'Mostrar información de depuración';
+                } else {
+                    debugInfo.style.display = 'block';
+                    debugBtn.textContent = 'Ocultar información de depuración';
+                    
+                    // Show Firebase config (without API key)
+                    const configCopy = {...firebaseConfig};
+                    configCopy.apiKey = "***HIDDEN***";
+                    
+                    debugInfo.innerHTML = `
+                        <h4>Información de depuración:</h4>
+                        <p>Firebase Config: ${JSON.stringify(configCopy, null, 2)}</p>
+                        <p>Firebase Inicializado: ${typeof firebase !== 'undefined'}</p>
+                        <p>Firebase Database: ${typeof firebase !== 'undefined' && typeof firebase.database !== 'undefined'}</p>
+                        <p>Navegador: ${navigator.userAgent}</p>
+                        <button id="initializeDbBtn" style="margin-top: 10px; padding: 5px 10px;">Inicializar datos de ejemplo</button>
+                    `;
+                    
+                    // Add event listener to initialize button
+                    document.getElementById('initializeDbBtn').addEventListener('click', function() {
+                        initializeExampleData();
+                    });
+                }
+            });
+            
+            // Initialize Firebase
+            try {
+                firebase.initializeApp(firebaseConfig);
+                const database = firebase.database();
+                console.log("Firebase inicializado correctamente");
+                
+                // DOM elements
+                const loginContainer = document.getElementById('loginContainer');
+                const quizContainer = document.getElementById('quizContainer');
+                const resultsContainer = document.getElementById('resultsContainer');
+                const sectionContainer = document.getElementById('sectionContainer');
+                const startBtn = document.getElementById('startBtn');
+                const prevBtn = document.getElementById('prevBtn');
+                const nextBtn = document.getElementById('nextBtn');
+                const submitBtn = document.getElementById('submitBtn');
+                const loginError = document.getElementById('loginError');
+                const resultsScore = document.getElementById('resultsScore');
+                const sectionScores = document.getElementById('sectionScores');
+                const syncStatus = document.getElementById('syncStatus');
+                
+                // Quiz data
+                const quizSections = [
+                    {
+                        title: "Section 1: Grammar",
+                        questions: [
+                            {
+                                text: "Choose the correct form of the verb: She ___ to the store yesterday.",
+                                options: ["go", "goes", "went", "going"],
+                                correctAnswer: "went"
+                            },
+                            {
+                                text: "Select the correct sentence:",
+                                options: [
+                                    "He don't like pizza.",
+                                    "He doesn't likes pizza.",
+                                    "He doesn't like pizza.",
+                                    "He not like pizza."
+                                ],
+                                correctAnswer: "He doesn't like pizza."
+                            },
+                            // Resto de preguntas omitidas por brevedad
+                            {
+                                text: "Choose the correct form: The movie was ___ boring that I fell asleep.",
+                                options: ["so", "such", "very", "too"],
+                                correctAnswer: "so"
+                            }
+                        ]
+                    },
+                    // Resto de secciones omitidas por brevedad
+                    {
+                        title: "Section 4: Listening Comprehension",
+                        questions: [
+                            {
+                                text: "Listen to the audio (simulated): 'The meeting will start at 3 PM in the conference room.'\n\nWhen will the meeting start?",
+                                options: ["2 PM", "3 PM", "4 PM", "5 PM"],
+                                correctAnswer: "3 PM"
+                            },
+                            // Resto de preguntas omitidas por brevedad
+                        ]
+                    }
+                ];
+                
+                // Quiz state
+                let currentSection = 0;
+                let userAnswers = [];
+                let authorizedStudents = [];
+                
+                // Initialize example data
+                function initializeExampleData() {
+                    const exampleStudents = [
+                        { name: "Juan Pérez", id: "A12345" },
+                        { name: "María García", id: "B67890" },
+                        { name: "Carlos Rodríguez", id: "C13579" }
+                    ];
+                    
+                    // Create a batch update object
+                    const updates = {};
+                    exampleStudents.forEach((student, index) => {
+                        updates[`authorizedStudents/student_${index}`] = student;
+                    });
+                    
+                    // Update the database
+                    database.ref().update(updates)
+                        .then(() => {
+                            alert("Datos de ejemplo inicializados correctamente. Ahora puedes iniciar sesión con:\nNombre: Juan Pérez\nID: A12345");
+                            console.log("Datos de ejemplo inicializados");
+                        })
+                        .catch(error => {
+                            alert("Error al inicializar datos: " + error.message);
+                            console.error("Error al inicializar datos:", error);
+                        });
+                }
+                
+                // Check connection status and retry mechanism
+                function checkConnection() {
+                    const connectedRef = database.ref('.info/connected');
+                    connectedRef.on('value', (snap) => {
+                        if (snap.val() === true) {
+                            syncStatus.textContent = 'Conectado a la base de datos - Los datos se sincronizarán automáticamente';
+                            syncStatus.className = 'sync-status online';
+                            
+                            // Load authorized students once connected
+                            loadAuthorizedStudents();
+                        } else {
+                            syncStatus.textContent = 'Desconectado de la base de datos - Intentando reconectar...';
+                            syncStatus.className = 'sync-status offline';
+                            
+                            // Try to reconnect after a delay
+                            setTimeout(() => {
+                                database.goOnline();
+                            }, 3000);
+                        }
+                    });
+                }
+                
+                // Load authorized students from Firebase
+                function loadAuthorizedStudents() {
+                    database.ref('authorizedStudents').on('value', (snapshot) => {
+                        if (snapshot.exists()) {
+                            const data = snapshot.val();
+                            authorizedStudents = Object.values(data);
+                            console.log('Estudiantes autorizados cargados:', authorizedStudents.length);
+                        } else {
+                            console.log('No hay estudiantes autorizados en la base de datos');
+                            authorizedStudents = [];
+                        }
+                    }, (error) => {
+                        console.error('Error al cargar estudiantes autorizados:', error);
+                        syncStatus.textContent = 'Error al cargar datos - Intente recargar la página';
+                        syncStatus.className = 'sync-status offline';
+                    });
+                }
+                
+                // Initialize connection and quiz
+                checkConnection();
+                initializeQuiz();
+                
+                // Start button click
+                startBtn.addEventListener('click', function() {
+                    const name = document.getElementById('studentName').value.trim();
+                    const id = document.getElementById('studentId').value.trim();
+                    
+                    if (!name || !id) {
+                        alert('Por favor ingrese su nombre e ID de estudiante.');
+                        return;
+                    }
+                    
+                    // Check if student is authorized
+                    const isAuthorized = authorizedStudents.some(student => 
+                        student.name.toLowerCase() === name.toLowerCase() && 
+                        student.id.toLowerCase() === id.toLowerCase()
+                    );
+                    
+                    if (!isAuthorized) {
+                        loginError.style.display = 'block';
+                        return;
+                    }
+                    
+                    // Initialize user answers array
+                    userAnswers = [];
+                    for (let i = 0; i < quizSections.length; i++) {
+                        userAnswers[i] = Array(quizSections[i].questions.length).fill(null);
+                    }
+                    
+                    // Show quiz container
+                    loginContainer.style.display = 'none';
+                    quizContainer.style.display = 'block';
+                    resultsContainer.style.display = 'none';
+                    loginError.style.display = 'none';
+                    
+                    // Display first section
+                    displaySection(0);
+                });
+                
+                // Previous button click
+                prevBtn.addEventListener('click', function() {
+                    if (currentSection > 0) {
+                        currentSection--;
+                        displaySection(currentSection);
+                    }
+                });
+                
+                // Next button click
+                nextBtn.addEventListener('click', function() {
+                    if (currentSection < quizSections.length - 1) {
+                        currentSection++;
+                        displaySection(currentSection);
+                    }
+                });
+                
+                // Submit button click
+                submitBtn.addEventListener('click', function() {
+                    if (confirm('¿Está seguro que desea enviar su examen? No podrá cambiar sus respuestas después de enviarlo.')) {
+                        calculateResults();
+                    }
+                });
+                
+                // Initialize quiz
+                function initializeQuiz() {
+                    // Reset current section
+                    currentSection = 0;
+                    
+                    // Reset user answers
+                    userAnswers = [];
+                    for (let i = 0; i < quizSections.length; i++) {
+                        userAnswers[i] = Array(quizSections[i].questions.length).fill(null);
+                    }
+                }
+                
+                // Display current section
+                function displaySection(sectionIndex) {
+                    // Update current section
+                    currentSection = sectionIndex;
+                    
+                    // Clear section container
+                    sectionContainer.innerHTML = '';
+                    
+                    // Add section title
+                    const sectionTitle = document.createElement('h2');
+                    sectionTitle.className = 'section-title';
+                    sectionTitle.textContent = quizSections[sectionIndex].title;
+                    sectionContainer.appendChild(sectionTitle);
+                    
+                    // Add questions
+                    quizSections[sectionIndex].questions.forEach((question, questionIndex) => {
+                        const questionContainer = document.createElement('div');
+                        questionContainer.className = 'question-container';
+                        
+                        const questionText = document.createElement('div');
+                        questionText.className = 'question-text';
+                        questionText.textContent = `${questionIndex + 1}. ${question.text}`;
+                        questionContainer.appendChild(questionText);
+                        
+                        const optionsContainer = document.createElement('div');
+                        optionsContainer.className = 'options-container';
+                        
+                        question.options.forEach((option, optionIndex) => {
+                            const optionDiv = document.createElement('div');
+                            optionDiv.className = 'option';
+                            
+                            const radioInput = document.createElement('input');
+                            radioInput.type = 'radio';
+                            radioInput.name = `question-${sectionIndex}-${questionIndex}`;
+                            radioInput.id = `option-${sectionIndex}-${questionIndex}-${optionIndex}`;
+                            radioInput.value = option;
+                            
+                            // Check if this option was previously selected
+                            if (userAnswers[sectionIndex][questionIndex] === option) {
+                                radioInput.checked = true;
+                            }
+                            
+                            // Add event listener to save answer
+                            radioInput.addEventListener('change', function() {
+                                if (this.checked) {
+                                    userAnswers[sectionIndex][questionIndex] = option;
+                                }
+                            });
+                            
+                            const label = document.createElement('label');
+                            label.htmlFor = `option-${sectionIndex}-${questionIndex}-${optionIndex}`;
+                            label.textContent = option;
+                            
+                            optionDiv.appendChild(radioInput);
+                            optionDiv.appendChild(label);
+                            optionsContainer.appendChild(optionDiv);
+                        });
+                        
+                        questionContainer.appendChild(optionsContainer);
+                        sectionContainer.appendChild(questionContainer);
+                    });
+                    
+                    // Update navigation buttons
+                    prevBtn.style.display = sectionIndex > 0 ? 'block' : 'none';
+                    nextBtn.style.display = sectionIndex < quizSections.length - 1 ? 'block' : 'none';
+                    submitBtn.style.display = sectionIndex === quizSections.length - 1 ? 'block' : 'none';
+                }
+                
+                // Calculate and display results
+                function calculateResults() {
+                    // Calculate scores
+                    const sectionScoresArray = [];
+                    let totalScore = 0;
+                    let totalQuestions = 0;
+                    
+                    const questionResults = [];
+                    
+                    for (let i = 0; i < quizSections.length; i++) {
+                        let sectionScore = 0;
+                        const sectionQuestions = quizSections[i].questions.length;
+                        
+                        for (let j = 0; j < sectionQuestions; j++) {
+                            const userAnswer = userAnswers[i][j];
+                            const correctAnswer = quizSections[i].questions[j].correctAnswer;
+                            const isCorrect = userAnswer === correctAnswer;
+                            
+                            if (isCorrect) {
+                                sectionScore++;
+                                totalScore++;
+                            }
+                            
+                            // Save question result
+                            questionResults.push({
+                                section: i + 1,
+                                question: totalQuestions + j + 1,
+                                userAnswer: userAnswer || 'No answer',
+                                correctAnswer: correctAnswer,
+                                isCorrect: isCorrect
+                            });
+                        }
+                        
+                        sectionScoresArray.push(sectionScore);
+                        totalQuestions += sectionQuestions;
+                    }
+                    
+                    // Calculate percentage
+                    const percentage = Math.round((totalScore / totalQuestions) * 100);
+                    
+                    // Display results
+                    resultsScore.textContent = `${percentage}% (${totalScore}/${totalQuestions})`;
+                    
+                    // Display section scores
+                    sectionScores.innerHTML = '<h3>Section Scores:</h3>';
+                    const sectionQuestions = [15, 10, 10, 5]; // Number of questions in each section
+                    
+                    for (let i = 0; i < sectionScoresArray.length; i++) {
+                        const sectionPercentage = Math.round((sectionScoresArray[i] / sectionQuestions[i]) * 100);
+                        const sectionScoreDiv = document.createElement('div');
+                        sectionScoreDiv.className = 'section-score';
+                        sectionScoreDiv.innerHTML = `<strong>Section ${i+1}:</strong> ${sectionScoresArray[i]}/${sectionQuestions[i]} (${sectionPercentage}%)`;
+                        sectionScores.appendChild(sectionScoreDiv);
+                    }
+                    
+                    // Show results container
+                    quizContainer.style.display = 'none';
+                    resultsContainer.style.display = 'block';
+                    
+                    // Save results to Firebase
+                    const studentName = document.getElementById('studentName').value.trim();
+                    const studentId = document.getElementById('studentId').value.trim();
+                    const timestamp = new Date().toISOString();
+                    const quizDate = new Date().toLocaleDateString();
+                    
+                    const resultData = {
+                        studentName,
+                        studentId,
+                        quizDate,
+                        totalScore,
+                        totalQuestions,
+                        percentage,
+                        sectionScores: sectionScoresArray,
+                        questionResults,
+                        timestamp
+                    };
+                    
+                    // Save to Firebase with retry mechanism
+                    function saveResultsToFirebase(retryCount = 0) {
+                        database.ref('quizResults').push(resultData)
+                            .then(() => {
+                                console.log('Resultados guardados exitosamente');
+                            })
+                            .catch(error => {
+                                console.error('Error al guardar resultados:', error);
+                                
+                                if (retryCount < 3) {
+                                    // Retry after a delay
+                                    setTimeout(() => {
+                                        saveResultsToFirebase(retryCount + 1);
+                                    }, 2000);
+                                } else {
+                                    alert('Hubo un error al guardar sus resultados. Por favor tome una captura de pantalla de esta página y contacte a su administrador.');
+                                }
+                            });
+                    }
+                    
+                    saveResultsToFirebase();
+                }
+            } catch (error) {
+                console.error("Error al inicializar Firebase:", error);
+                document.getElementById('syncStatus').textContent = 'Error al inicializar Firebase: ' + error.message;
+                document.getElementById('syncStatus').className = 'sync-status offline';
+            }
+        });
+    </script>
+</body>
+</html>
