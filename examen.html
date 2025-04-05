@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Exámenes</title>
+    <link rel="icon" href="img/mr-jes-logo.png" type="image/png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .dashboard {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .dashboard-header {
+            background-color: #1a73e8;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .dashboard-header h1 {
+            font-size: 24px;
+            font-weight: 500;
+        }
+        
+        .dashboard-content {
+            padding: 30px;
+        }
+        
+        .grade-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .grade-button {
+            background-color: white;
+            border: 2px solid #1a73e8;
+            color: #1a73e8;
+            border-radius: 8px;
+            padding: 20px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .grade-button:hover {
+            background-color: #1a73e8;
+            color: white;
+        }
+        
+        .section-title {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Dashboard -->
+        <div class="dashboard" id="dashboard">
+            <div class="dashboard-header">
+                <h1>Portal de Exámenes</h1>
+            </div>
+            <div class="dashboard-content">
+                <h2 class="section-title">Seleccione un Grado para ver los exámenes disponibles</h2>
+                <div class="grade-buttons">
+                    <a href="seleccion6.html" class="grade-button">Exámenes Grado Sexto</a>
+                    <a href="grado7 EXAMEN.html" class="grade-button">Exámenes Grado Séptimo</a>
+                    <a href="grado8 EXAMEN.html" class="grade-button">Exámenes Grado Octavo</a>
+                    <a href="grado9 EXAMEN.html" class="grade-button">Exámenes Grado Noveno</a>
+                    <a href="grado10 EXAMEN.html" class="grade-button">Exámenes Grado Décimo</a>
+                    <a href="grado11 EXAMEN.html" class="grade-button">Exámenes Grado Once</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
