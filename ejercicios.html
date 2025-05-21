@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Ejercicios</title>
+    <link rel="icon" href="img/mr-jes-logo.png" type="image/png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f8ff;
+            color: #00008b;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            background-color: #0047ab;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: slide 3s infinite;
+        }
+        
+        @keyframes slide {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        main {
+            flex: 1;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 30px 50px;
+            background-color: #0047ab;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: background-color 0.3s;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 600px;
+        }
+        
+        .btn:hover {
+            background-color: #003380;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .loading-bar {
+            height: 5px;
+            background: linear-gradient(90deg, #0047ab, #00bfff);
+            width: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            animation: loading 3s ease-in-out forwards;
+        }
+        
+        @keyframes loading {
+            0% {
+                width: 0;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-bar"></div>
+    
+    <header>
+        <div class="header-animation"></div>
+        <h1>Ejercicios Disponibles</h1>
+    </header>
+    
+    <main>
+        <a href="ejercisio1.html" class="btn" id="Student_Workbook_-_Level_1_Modulo_1">Student Workbook Level 1 Modulo 1</a>
+    </main>
+
+    <script>
+    
+    </script>
+</body>
+</html>

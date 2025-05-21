@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Second Period Exam</title>
+<!-- Add favicon -->
+<link rel="icon" href="img/mr-jes-logo.png" type="image/png">
+<!-- Firebase SDK - Latest version -->
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.5;
+    }
+    
+    .header {
+        text-align: center;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .login-container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .quiz-container {
+        display: none;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    
+    .form-group input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    
+    .btn {
+        padding: 10px 15px;
+        background-color: #4a6ea9;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        width: 100%;
+    }
+    
+    .btn:hover {
+        background-color: #3a5a89;
+    }
+    
+    .error-message {
+        color: #d9534f;
+        margin-top: 10px;
+        display: none;
+    }
+    
+    .question-container {
+        margin-bottom: 30px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+    
+    .question-text {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    
+    .options-container {
+        margin-left: 20px;
+    }
+    
+    .option {
+        margin-bottom: 8px;
+    }
+    
+    .option input {
+        margin-right: 10px;
+    }
+    
+    .section-title {
+        margin-top: 30px;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .navigation-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+    
+    .navigation-buttons .btn {
+        width: auto;
+    }
+    
+    .results-container {
+        display: none;
+        margin-top: 30px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+    
+    .results-header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .results-score {
+        font-size: 24px;
+        font-weight: bold;
+        color: #4a6ea9;
+        margin-bottom: 15px;
+    }
+    
+    .section-scores {
+        margin-bottom: 20px;
+    }
+    
+    .section-score {
+        margin-bottom: 10px;
+    }
+    
+    .sync-status {
+        text-align: center;
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 4px;
+        background-color: #f8f9fa;
+    }
+    
+    .sync-status.online {
+        color: #28a745;
+    }
+    
+    .sync-status.offline {
+        color: #dc3545;
+    }
+    
+    .debug-info {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #f8f9fa;
+        font-family: monospace;
+        font-size: 12px;
+        display: none;
+    }
+    
+    .passage {
+        margin: 15px 0;
+        line-height: 1.6;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-left: 3px solid #ddd;
+    }
+    
+    .audio-player {
+        margin: 15px 0;
+        padding: 10px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    
+    .audio-controls {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .audio-element {
+        width: 100%;
+        margin-top: 5px;
+    }
+    
+    .audio-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    
+    .exam-image {
+        max-width: 100%;
+        height: auto;
+        margin: 15px 0;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Timer styles */
+    .timer-container {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        display: none;
+    }
+    
+    .timer {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+    }
+    
+    .timer.warning {
+        color: #f0ad4e;
+    }
+    
+    .timer.danger {
+        color: #d9534f;
+        animation: blink 1s infinite;
+    }
+    
+    @keyframes blink {
+        0% { opacity: 1; }
+        50% { opacity: 0.5; }
+        100% { opacity: 1; }
+    }
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>EXAMEN level one - GRADO DÉCIMO</h1>
+    <div id="syncStatus" class="sync-status">Connecting to database...</div>
+</div>
+
+<!-- Timer container -->
+<div class="timer-container" id="timerContainer">
+    <div class="timer" id="timer">Time remaining: 60:00</div>
+</div>
+
+<div class="login-container" id="loginContainer">
+    <h2>Login</h2>
+    <div class="form-group">
+        <label for="studentName">Full Name:</label>
+        <input type="text" id="studentName" placeholder="Enter your full name">
+    </div>
+    <div class="form-group">
+        <label for="studentId">Student ID:</label>
+        <input type="text" id="studentId" placeholder="Enter your student ID">
+    </div>
+    <button type="button" class="btn" id="startBtn">Start Exam</button>
+    <div class="error-message" id="loginError">You are not authorized to take this exam. Please contact your administrator.</div>
+    <div style="margin-top: 15px; text-align: center;">
+        <button type="button" id="debugBtn" style="background: none; border: none; color: #6c757d; text-decoration: underline; cursor: pointer; font-size: 12px;">Show debug information</button>
+    </div>
+</div>
+
+<div id="debugInfo" class="debug-info"></div>
+
+<div class="quiz-container" id="quizContainer">
+    <div id="sectionContainer"></div>
+    
+    <div class="navigation-buttons">
+        <button type="button" class="btn" id="prevBtn" style="display: none;">Previous</button>
+        <button type="button" class="btn" id="nextBtn">Next</button>
+        <button type="button" class="btn" id="submitBtn" style="display: none;">Submit Exam</button>
+    </div>
+</div>
+
+<div class="results-container" id="resultsContainer">
+    <div class="results-header">
+        <h2>Exam Results</h2>
+        <div class="results-score" id="resultsScore"></div>
+    </div>
+    
+    <div class="section-scores" id="sectionScores"></div>
+    
+    <p>Thank you for completing the Second Period Exam. Your results have been recorded.</p>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyCrXGgSiRHjTGg8Ve3h7PhkM0hcWlORhcw",
+          authDomain: "ingles-trabajo-colegio.firebaseapp.com",
+          databaseURL: "https://ingles-trabajo-colegio-default-rtdb.firebaseio.com",
+          projectId: "ingles-trabajo-colegio",
+          storageBucket: "ingles-trabajo-colegio.firebaseestorage.app",
+          messagingSenderId: "801926533630",
+          appId: "1:801926533630:web:2fde3d43a404da7e2730af"
+        };
+        
+        // Exam ID for the second period (must match the ID on the grade management page)
+        const EXAM_ID = "exam2";
+        
+        // Timer variables
+        const EXAM_TIME_MINUTES = 60;
+        let timeRemaining = EXAM_TIME_MINUTES * 60; // in seconds
+        let timerInterval;
+        const timerContainer = document.getElementById('timerContainer');
+        const timerElement = document.getElementById('timer');
+        
+        // Debug button
+        const debugBtn = document.getElementById('debugBtn');
+        const debugInfo = document.getElementById('debugInfo');
+        
+        debugBtn.addEventListener('click', function() {
+            if (debugInfo.style.display === 'block') {
+                debugInfo.style.display = 'none';
+                debugBtn.textContent = 'Show debug information';
+            } else {
+                debugInfo.style.display = 'block';
+                debugBtn.textContent = 'Hide debug information';
+                
+                // Show Firebase config (without API key)
+                const configCopy = {...firebaseConfig};
+                configCopy.apiKey = "***HIDDEN***";
+                
+                debugInfo.innerHTML = `
+                    <h4>Debug Information:</h4>
+                    <p>Firebase Config: ${JSON.stringify(configCopy, null, 2)}</p>
+                    <p>Firebase Initialized: ${typeof firebase !== 'undefined'}</p>
+                    <p>Firebase Database: ${typeof firebase !== 'undefined' && typeof firebase.database !== 'undefined'}</p>
+                    <p>Exam ID: ${EXAM_ID}</p>
+                    <p>Browser: ${navigator.userAgent}</p>
+                    <p>Exam Time: ${EXAM_TIME_MINUTES} minutes</p>
+                    <button id="initializeDbBtn" style="margin-top: 10px; padding: 5px 10px;">Initialize sample data</button>
+                `;
+                
+                // Add event listener to initialize button
+                document.getElementById('initializeDbBtn').addEventListener('click', function() {
+                    initializeExampleData();
+                });
+            }
+        });
+        
+        // Initialize Firebase
+        try {
+            firebase.initializeApp(firebaseConfig);
+            const database = firebase.database();
+            console.log("Firebase initialized successfully");
+            
+            // DOM elements
+            const loginContainer = document.getElementById('loginContainer');
+            const quizContainer = document.getElementById('quizContainer');
+            const resultsContainer = document.getElementById('resultsContainer');
+            const sectionContainer = document.getElementById('sectionContainer');
+            const startBtn = document.getElementById('startBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            const loginError = document.getElementById('loginError');
+            const resultsScore = document.getElementById('resultsScore');
+            const sectionScores = document.getElementById('sectionScores');
+            const syncStatus = document.getElementById('syncStatus');
+            
+            // Quiz data
+            const quizSections = [
+                {
+                    title: "Section 1: Grammar",
+                    questions: [
+                        {
+                            text: "Why aren't you __ your homework?",
+                            options: ["do", "doing", "done", "did"],
+                            correctAnswer: "doing"
+                        },
+                        {
+                            text: "Mac and Marie __ in France last year.",
+                            options: ["is", "are", "was", "were"],
+                            correctAnswer: "were"
+                        },
+                        {
+                            text: "Did you __ at the store?",
+                            options: ["stop", "stops", "stopped", "stopping"],
+                            correctAnswer: "stop"
+                        },
+                        {
+                            text: "I could not go. I __ enough money.",
+                            options: ["had not", "have", "did not have", "did not had"],
+                            correctAnswer: "did not have"
+                        },
+                        {
+                            text: "Archie __ be a policeman.",
+                            options: ["use", "used", "use to", "used to"],
+                            correctAnswer: "used to"
+                        },
+                        {
+                            text: "Abbie is the __ runner on the team.",
+                            options: ["fast", "faster", "fastest", "most fast"],
+                            correctAnswer: "fastest"
+                        },
+                        {
+                            text: "This summer is __ than last summer.",
+                            options: ["hot", "hotter", "hottest", "most hot"],
+                            correctAnswer: "hotter"
+                        },
+                        {
+                            text: "__ you lend me your book?",
+                            options: ["Will", "Does", "Is", "Are"],
+                            correctAnswer: "Will"
+                        },
+                        {
+                            text: "Gemma has been a teacher __ 2008.",
+                            options: ["if", "for", "since", "because"],
+                            correctAnswer: "since"
+                        },
+                        {
+                            text: "Has Elmo __ to the gym today?",
+                            options: ["be", "do", "done", "been"],
+                            correctAnswer: "been"
+                        },
+                        {
+                            text: "They enjoyed __ on the beach.",
+                            options: ["walk", "walking", "walked", "walker"],
+                            correctAnswer: "walking"
+                        },
+                        {
+                            text: "I don't have __ to do today.",
+                            options: ["thing", "anything", "nothing", "everything"],
+                            correctAnswer: "anything"
+                        },
+                        {
+                            text: "Kamala __ when the ambulance arrived.",
+                            options: ["sleep", "sleeps", "were sleeping", "was sleeping"],
+                            correctAnswer: "was sleeping"
+                        },
+                        {
+                            text: "__, I won't wear a jacket.",
+                            options: ["If it is warm", "To be warm", "For it is warm", "Whether it is warm"],
+                            correctAnswer: "If it is warm"
+                        },
+                        {
+                            text: "I don't like people __ are rude.",
+                            options: ["that", "which", "who", "whom"],
+                            correctAnswer: "who"
+                        }
+                    ]
+                },
+                {
+                    title: "Section 2: Listening Comprehension",
+                    questions: [
+                        {
+                            text: "Listen to the audio and answer the question: What is the main idea of the passage?",
+                            audioFile: "audio/listening1.mp3",
+                            audioTitle: "Listening 1",
+                            image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ELLevate%20Placement%20Test%201.jpg-kOVOO3ZLrp4HR0u3KRNbEWyq0BUE3g.jpeg",
+                            options: ["Johan is from the capitol of Iceland.", "Lavender is from the capitol of Iceland.", "Johan is from a small town in Iceland.", "Lavender is from a small town in Iceland."],
+                            correctAnswer: "Johan is from a small town in Iceland."
+                        },
+                        {
+                            text: "Where is this conversation happening?",
+                            options: ["at Lavender's school", "in Iceland", "in France", "at Lavender's house"],
+                            correctAnswer: "in France"
+                        },
+                        {
+                            text: "Why is Johan eating in the same room as Lavender?",
+                            options: ["He is an exchange student.", "His family has moved to France.", "He is Lavender's friend.", "His family has moved to Lavender's town."],
+                            correctAnswer: "He is an exchange student."
+                        },
+                        {
+                            text: "What is true about Reykjavik and Vogar?",
+                            options: ["The two places are very far apart.", "Reykjavik is larger than Vogar.", "Vogar is part of Reykjavik.", "Vogar is larger than Reykjavik."],
+                            correctAnswer: "Reykjavik is larger than Vogar."
+                        },
+                        {
+                            text: "Listen to the audio and answer the question: What are the doctors in the picture doing?",
+                            audioFile: "audio/listening2.mp3",
+                            audioTitle: "Listening 2",
+                            image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ELLevate%20Placement%20Test%202.jpg-GpfTmG05Wx86Ytfld7phv1w2Gg6qX0.jpeg",
+                            options: ["eating lunch", "fixing a computer", "discussing a sick patient", "discussing where to eat dinner"],
+                            correctAnswer: "discussing a sick patient"
+                        },
+                        {
+                            text: "Where is their conversation happening?",
+                            options: ["in a computer lab", "in a restaurant", "at a hospital", "at a patient's home"],
+                            correctAnswer: "at a hospital"
+                        },
+                        {
+                            text: "Do the doctors think that Kiki has measles?",
+                            options: ["Yes, because she has spots inside of her mouth.", "No, because she has no spots inside of her mouth.", "Yes, because It hurts when she swallows.", "No, because it does not hurt when she swallows."],
+                            correctAnswer: "No, because she has no spots inside of her mouth."
+                        },
+                        {
+                            text: "Do the doctors think that Kiki has mumps?",
+                            options: ["No, because it does not hurt when she swallows.", "No, because she does not have a fever.", "Yes, because she has spots inside of her mouth.", "Yes, because she has a fever."],
+                            correctAnswer: "No, because it does not hurt when she swallows."
+                        },
+                        {
+                            text: "Do the doctors think that KiKi has chicken pox?",
+                            options: ["Yes, because she has a fever.", "No, because she has no red spots on her skin.", "No, because she has spots inside of her mouth.", "Yes, because it hurts when she swallows."],
+                            correctAnswer: "No, because she has no red spots on her skin."
+                        },
+                        {
+                            text: "What do the doctors think Kiki should do to feel better?",
+                            options: ["be examined by a doctor", "get vaccinated", "go to a hospital", "rest and drink water"],
+                            correctAnswer: "rest and drink water"
+                        }
+                    ]
+                },
+                {
+                    title: "Section 3: Reading Comprehension",
+                    questions: [
+                        {
+                            text: "Read the following text:\n\n'Have you ever heard Mexican mariachi (mar*ee*ah*chee) music? Don't say \"no\" too quickly. It's possible that you have but do not know what it's called. Mariachi is very joyful. It's almost impossible to hear it and not smile. A mariachi band includes violins, trumpets, and at least three different kinds of guitar. Most bands are small, but some have as many as twenty musicians. The larger bands have drums, flutes, and rattles to add to the festive music. Mariachi musicians wear wide-brimmed hats called sombreros. Their clothes are colorful, with fancy stitching. Mariachi began in rural Mexico in the 1800s. Originally, it was only played in church. That may be why it is still played at weddings. In fact, the word \"mariachi\" probably came from the same French word that means \"marriage\" in English. There is no lead singer in a mariachi band. Whoever does each song best is the one who gets to sing it. The only rule is that the singer must be louder than the music.'\n\nWhat is the best title for this passage?",
+                            image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ELLevate%20Placement%20Test%203.jpg-rroXglUbqDzgk5qwzS2TtbcR3H0CM2.jpeg",
+                            options: ["Mexican Music", "Sombreros and Fancy Stitching", "All About Mariachi", "Mariachi and Marriage"],
+                            correctAnswer: "All About Mariachi"
+                        },
+                        {
+                            text: "Where did mariachi music develop?",
+                            options: ["in French churches", "at English weddings", "at French weddings", "in Mexican churches"],
+                            correctAnswer: "in Mexican churches"
+                        },
+                        {
+                            text: "Which adjective best describes mariachi music?",
+                            options: ["happy", "dramatic", "religious", "gloomy"],
+                            correctAnswer: "happy"
+                        },
+                        {
+                            text: "What does a mariachi band never have?",
+                            options: ["more than five musicians", "a lead singer", "a flute", "sombreros"],
+                            correctAnswer: "a lead singer"
+                        },
+                        {
+                            text: "Read the following text:\n\n'This picture shows a typical television today. Did you know that television has been evolving for more than 150 years? No one person can be named as its inventor. Hundreds played a part. In 1856, an Italian priest found a way to send still pictures over wires. A Russian scientist invented the word \"television\" in 1900. A group of French scientists sent a moving image through the air in 1909. The biggest problem was that the image was too dim and dark. By the 1920s, a way was found to make the signal stronger. And in 1928, a short television show was broadcast from London, England to a receiver in the United States. That same year, the world's first television station began transmitting. It was in New York. Very few people had televisions. At first, there were only about 200 of them. By 1936, that number was growing quickly. In 1937, the world's first television network began to transmit. It was called the Columbia Broadcast System. It was not in Columbia, though. It was in the United States.'\n\nWhat is the best title for this passage?",
+                            image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ELLevate%20Placement%20Test%204.jpg-PC9CC3oEX1Ebjtt5NAoLHRiVt40YuF.jpeg",
+                            options: ["How Television Began", "The Inventor of Television", "Television's First Network", "Television Today"],
+                            correctAnswer: "How Television Began"
+                        },
+                        {
+                            text: "Who invented television?",
+                            options: ["an Italian priest", "a Russian scientist", "some French scientists", "hundreds of people"],
+                            correctAnswer: "hundreds of people"
+                        },
+                        {
+                            text: "When was a television show first sent from one country to another?",
+                            options: ["1856", "1900", "1928", "1936"],
+                            correctAnswer: "1928"
+                        },
+                        {
+                            text: "How long after 1928 did television start becoming popular?",
+                            options: ["about a year", "about eight years", "about fifteen years", "about twenty years"],
+                            correctAnswer: "about eight years"
+                        },
+                        {
+                            text: "Which country had the first television network?",
+                            options: ["Russia", "the United States", "Columbia", "England"],
+                            correctAnswer: "the United States"
+                        },
+                        {
+                            text: "In what year did a group of French scientists send a moving image through the air?",
+                            options: ["1900", "1909", "2016", "1928"],
+                            correctAnswer: "1909"
+                        }
+                    ]
+                },
+                {
+                    title: "Section 4: Writing",
+                    questions: [
+                        {
+                            text: "Read the following text:\n\n'1) _________________________________________ It is located on Alcatraz Island, off the California coast. It began operation in 1934. Over the course of twenty-nine years, thirty-six prisoners tried to escape. All but five were caught. The others were 2) never heard from again. Some think that they escaped, but that is not likely. The waters around the island were 2) usually very cold and choppy. Few could have swam safely to the shore. The prison closed in 1963. It was made a national park in 1972. 3) Tourists visit Alcatraz every day of the year except Christmas.'\n\nWhich of these makes the best topic sentence for this paragraph?",
+                            options: ["There is a lighthouse on Alcatraz Island.", "Alcatraz is the most famous prison in the United States.", "Alcatraz was once home to the Miwok Indians.", "The United States took over Alcatraz Island in 1848."],
+                            correctAnswer: "Alcatraz is the most famous prison in the United States."
+                        },
+                        {
+                            text: "How are the words \"never\" and \"usually\" used in the paragraph?",
+                            options: ["as nouns", "as verbs", "as adverbs of frequency", "as expressions of quantity"],
+                            correctAnswer: "as adverbs of frequency"
+                        },
+                        {
+                            text: "What are the subject and object nouns in the paragraph's last sentence?",
+                            options: ["\"day\" and \"year\"", "\"day\" and \"Christmas\"", "\"tourists\" and \"visit\"", "\"tourists\" and \"Alcatraz\""],
+                            correctAnswer: "\"tourists\" and \"Alcatraz\""
+                        },
+                        {
+                            text: "Read the following text:\n\n'Where Did the Moon Come From? Before the 1970s, there are two major theories about how Earth got its moon. The first was that when the Earth was young, it spun so quickly that a piece of it flew off. The other theory was that the Moon just drifted by and Earth's gravity caught it. After astronauts brought back moon rocks in the 1970s, both of those theories were abandoned. Scientists now think something very large hit Earth when it was still forming. The Moon was torn from the Earth as a result.'\n\nWhich of these is an effect, not a cause?",
+                            options: ["the spinning of the Earth", "Earth gaining a moon", "the pull of the Earth's gravity", "Earth's collision with something else"],
+                            correctAnswer: "Earth gaining a moon"
+                        },
+                        {
+                            text: "What can be inferred from the paragraph?",
+                            options: ["Human space travel does not benefit us.", "Human space travel is very dangerous.", "Human space travel teaches us less than space probes do.", "Human space travel can teach us things."],
+                            correctAnswer: "Human space travel can teach us things."
+                        }
+                    ]
+                }
+            ];
+            
+            // Quiz state
+            let currentSection = 0;
+            let userAnswers = [];
+            let authorizedStudents = [];
+            
+            // Initialize example data
+            function initializeExampleData() {
+                const exampleStudents = [
+                    { name: "BUITRAGO VILLAMIL DANNA CAMILA", id: "1001" },
+                    { name: "CRUZ RAMÍREZ NICOL MARIANA", id: "1002" },
+                    { name: "GONZÁLEZ PAVA WILMER ESTIVEN", id: "1003" }
+                ];
+                
+                // Create a batch update object
+                const updates = {};
+                exampleStudents.forEach((student, index) => {
+                    updates[`authorizedStudents10/student_${index}`] = student;
+                });
+                
+                // Update the database
+                database.ref().update(updates)
+                    .then(() => {
+                        alert("Sample data initialized successfully. You can now log in with:\nName: BUITRAGO VILLAMIL DANNA CAMILA\nID: 1001");
+                        console.log("Sample data initialized");
+                    })
+                    .catch(error => {
+                        alert("Error initializing data: " + error.message);
+                        console.error("Error initializing data:", error);
+                    });
+            }
+            
+            // Check connection status and retry mechanism
+            function checkConnection() {
+                const connectedRef = database.ref('.info/connected');
+                connectedRef.on('value', (snap) => {
+                    if (snap.val() === true) {
+                        syncStatus.textContent = 'Connected to database - Data will sync automatically';
+                        syncStatus.className = 'sync-status online';
+                        
+                        // Load authorized students once connected
+                        loadAuthorizedStudents();
+                    } else {
+                        syncStatus.textContent = 'Disconnected from database - Attempting to reconnect...';
+                        syncStatus.className = 'sync-status offline';
+                        
+                        // Try to reconnect after a delay
+                        setTimeout(() => {
+                            database.goOnline();
+                        }, 3000);
+                    }
+                });
+            }
+            
+            // Load authorized students from Firebase
+            function loadAuthorizedStudents() {
+                database.ref('authorizedStudents10').on('value', (snapshot) => {
+                    if (snapshot.exists()) {
+                        const data = snapshot.val();
+                        authorizedStudents = Object.values(data);
+                        console.log('Authorized students loaded:', authorizedStudents.length);
+                    } else {
+                        console.log('No authorized students in the database');
+                        authorizedStudents = [];
+                    }
+                }, (error) => {
+                    console.error('Error loading authorized students:', error);
+                    syncStatus.textContent = 'Error loading data - Try refreshing the page';
+                    syncStatus.className = 'sync-status offline';
+                });
+            }
+            
+            // Initialize connection and quiz
+            checkConnection();
+            initializeQuiz();
+            
+            // Start button click
+            startBtn.addEventListener('click', function() {
+                const name = document.getElementById('studentName').value.trim();
+                const id = document.getElementById('studentId').value.trim();
+                
+                if (!name || !id) {
+                    alert('Please enter your name and student ID.');
+                    return;
+                }
+                
+                // Check if student is authorized
+                const isAuthorized = authorizedStudents.some(student => 
+                    student.name.toLowerCase() === name.toLowerCase() && 
+                    student.id.toLowerCase() === id.toLowerCase()
+                );
+                
+                if (!isAuthorized) {
+                    loginError.style.display = 'block';
+                    return;
+                }
+                
+                // Initialize user answers array
+                userAnswers = [];
+                for (let i = 0; i < quizSections.length; i++) {
+                    userAnswers[i] = Array(quizSections[i].questions.length).fill(null);
+                }
+                
+                // Show quiz container
+                loginContainer.style.display = 'none';
+                quizContainer.style.display = 'block';
+                resultsContainer.style.display = 'none';
+                loginError.style.display = 'none';
+                
+                // Display first section
+                displaySection(0);
+                
+                // Start the timer
+                startTimer();
+                
+                // Show timer container
+                timerContainer.style.display = 'block';
+            });
+            
+            // Previous button click
+            prevBtn.addEventListener('click', function() {
+                if (currentSection > 0) {
+                    currentSection--;
+                    displaySection(currentSection);
+                }
+            });
+            
+            // Next button click
+            nextBtn.addEventListener('click', function() {
+                if (currentSection < quizSections.length - 1) {
+                    currentSection++;
+                    displaySection(currentSection);
+                }
+            });
+            
+            // Submit button click
+            submitBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to submit your exam? You will not be able to change your answers after submission.')) {
+                    stopTimer();
+                    calculateResults();
+                }
+            });
+            
+            // Timer functions
+            function startTimer() {
+                // Reset timer
+                timeRemaining = EXAM_TIME_MINUTES * 60;
+                updateTimerDisplay();
+                
+                // Start interval
+                timerInterval = setInterval(function() {
+                    timeRemaining--;
+                    updateTimerDisplay();
+                    
+                    // Check if time is up
+                    if (timeRemaining <= 0) {
+                        stopTimer();
+                        alert('Time is up! Your exam will be submitted automatically.');
+                        calculateResults();
+                    }
+                }, 1000);
+            }
+            
+            function stopTimer() {
+                clearInterval(timerInterval);
+            }
+            
+            function updateTimerDisplay() {
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                
+                // Format time as MM:SS
+                const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                timerElement.textContent = `Time remaining: ${formattedTime}`;
+                
+                // Add warning classes based on time remaining
+                if (timeRemaining <= 300) { // 5 minutes
+                    timerElement.className = 'timer danger';
+                } else if (timeRemaining <= 600) { // 10 minutes
+                    timerElement.className = 'timer warning';
+                } else {
+                    timerElement.className = 'timer';
+                }
+            }
+            
+            // Initialize quiz
+            function initializeQuiz() {
+                // Reset current section
+                currentSection = 0;
+                
+                // Reset user answers
+                userAnswers = [];
+                for (let i = 0; i < quizSections.length; i++) {
+                    userAnswers[i] = Array(quizSections[i].questions.length).fill(null);
+                }
+            }
+            
+            // Display current section
+            function displaySection(sectionIndex) {
+                // Update current section
+                currentSection = sectionIndex;
+                
+                // Clear section container
+                sectionContainer.innerHTML = '';
+                
+                // Add section title
+                const sectionTitle = document.createElement('h2');
+                sectionTitle.className = 'section-title';
+                sectionTitle.textContent = quizSections[sectionIndex].title;
+                sectionContainer.appendChild(sectionTitle);
+                
+                // Add questions - Modified to display from top to bottom
+                const questions = quizSections[sectionIndex].questions;
+                
+                // Create all question containers first
+                for (let i = 0; i < questions.length; i++) {
+                    const question = questions[i];
+                    const questionContainer = document.createElement('div');
+                    questionContainer.className = 'question-container';
+                    questionContainer.id = `question-${sectionIndex}-${i}`;
+                    
+                    // Add image if this question has an image
+                    if (question.image) {
+                        const img = document.createElement('img');
+                        img.src = question.image;
+                        img.alt = "Question image";
+                        img.className = 'exam-image';
+                        questionContainer.appendChild(img);
+                    }
+                    
+                    // Add audio player if this question has an audio file
+                    if (question.audioFile) {
+                        const audioPlayer = document.createElement('div');
+                        audioPlayer.className = 'audio-player';
+                        
+                        const audioTitle = document.createElement('div');
+                        audioTitle.className = 'audio-title';
+                        audioTitle.textContent = question.audioTitle || `Audio ${i + 1}`;
+                        audioPlayer.appendChild(audioTitle);
+                        
+                        const audioElement = document.createElement('audio');
+                        audioElement.className = 'audio-element';
+                        audioElement.controls = true;
+                        audioElement.src = question.audioFile;
+                        audioPlayer.appendChild(audioElement);
+                        
+                        questionContainer.appendChild(audioPlayer);
+                    }
+                    
+                    const questionText = document.createElement('div');
+                    questionText.className = 'question-text';
+                    questionText.textContent = `${i + 1}. ${question.text}`;
+                    questionContainer.appendChild(questionText);
+                    
+                    const optionsContainer = document.createElement('div');
+                    optionsContainer.className = 'options-container';
+                    
+                    question.options.forEach((option, optionIndex) => {
+                        const optionDiv = document.createElement('div');
+                        optionDiv.className = 'option';
+                        
+                        const radioInput = document.createElement('input');
+                        radioInput.type = 'radio';
+                        radioInput.name = `question-${sectionIndex}-${i}`;
+                        radioInput.id = `option-${sectionIndex}-${i}-${optionIndex}`;
+                        radioInput.value = option;
+                        
+                        // Check if this option was previously selected
+                        if (userAnswers[sectionIndex][i] === option) {
+                            radioInput.checked = true;
+                        }
+                        
+                        // Add event listener to save answer
+                        radioInput.addEventListener('change', function() {
+                            if (this.checked) {
+                                userAnswers[sectionIndex][i] = option;
+                            }
+                        });
+                        
+                        const label = document.createElement('label');
+                        label.htmlFor = `option-${sectionIndex}-${i}-${optionIndex}`;
+                        label.textContent = option;
+                        
+                        optionDiv.appendChild(radioInput);
+                        optionDiv.appendChild(label);
+                        optionsContainer.appendChild(optionDiv);
+                    });
+                    
+                    questionContainer.appendChild(optionsContainer);
+                    sectionContainer.appendChild(questionContainer);
+                }
+                
+                // Scroll to the top of the section when navigating
+                window.scrollTo(0, 0);
+                
+                // Update navigation buttons
+                prevBtn.style.display = sectionIndex > 0 ? 'block' : 'none';
+                nextBtn.style.display = sectionIndex < quizSections.length - 1 ? 'block' : 'none';
+                submitBtn.style.display = sectionIndex === quizSections.length - 1 ? 'block' : 'none';
+            }
+            
+            // Calculate and display results
+            function calculateResults() {
+                // Stop the timer if it's still running
+                stopTimer();
+                
+                // Hide the timer
+                timerContainer.style.display = 'none';
+                
+                // Calculate scores
+                const sectionScoresArray = [];
+                let totalScore = 0;
+                let totalQuestions = 0;
+                
+                const questionResults = [];
+                
+                for (let i = 0; i < quizSections.length; i++) {
+                    let sectionScore = 0;
+                    const sectionQuestions = quizSections[i].questions.length;
+                    
+                    for (let j = 0; j < sectionQuestions; j++) {
+                        const userAnswer = userAnswers[i][j];
+                        const correctAnswer = quizSections[i].questions[j].correctAnswer;
+                        const isCorrect = userAnswer === correctAnswer;
+                        
+                        if (isCorrect) {
+                            sectionScore++;
+                            totalScore++;
+                        }
+                        
+                        // Save question result
+                        questionResults.push({
+                            question: j + 1,
+                            userAnswer: userAnswer || 'No answer',
+                            correctAnswer: correctAnswer,
+                            isCorrect: isCorrect
+                        });
+                    }
+                    
+                    sectionScoresArray.push(sectionScore);
+                    totalQuestions += sectionQuestions;
+                }
+                
+                // Calculate percentage
+                const percentage = Math.round((totalScore / totalQuestions) * 100);
+                
+                // Display results
+                resultsScore.textContent = `${percentage}% (${totalScore}/${totalQuestions})`;
+                
+                // Display section scores
+                sectionScores.innerHTML = '<h3>Section Scores:</h3>';
+                
+                // Get the number of questions in each section
+                const sectionQuestions = quizSections.map(section => section.questions.length);
+                
+                for (let i = 0; i < sectionScoresArray.length; i++) {
+                    const sectionPercentage = Math.round((sectionScoresArray[i] / sectionQuestions[i]) * 100);
+                    const sectionScoreDiv = document.createElement('div');
+                    sectionScoreDiv.className = 'section-score';
+                    sectionScoreDiv.innerHTML = `<strong>Section ${i+1}:</strong> ${sectionScoresArray[i]}/${sectionQuestions[i]} (${sectionPercentage}%)`;
+                    sectionScores.appendChild(sectionScoreDiv);
+                }
+                
+                // Show results container
+                quizContainer.style.display = 'none';
+                resultsContainer.style.display = 'block';
+                
+                // Save results to Firebase
+                const studentName = document.getElementById('studentName').value.trim();
+                const studentId = document.getElementById('studentId').value.trim();
+                const timestamp = Date.now();
+                const quizDate = new Date().toLocaleDateString();
+                const timeUsed = EXAM_TIME_MINUTES * 60 - timeRemaining; // Time used in seconds
+                
+                const resultData = {
+                    studentName,
+                    studentId,
+                    quizDate,
+                    totalScore,
+                    totalQuestions,
+                    percentage,
+                    sectionScores: sectionScoresArray,
+                    questionResults,
+                    timestamp,
+                    timeUsed,
+                    timeUsedFormatted: formatTime(timeUsed)
+                };
+                
+                // Format time function
+                function formatTime(seconds) {
+                    const minutes = Math.floor(seconds / 60);
+                    const remainingSeconds = seconds % 60;
+                    return `${minutes}m ${remainingSeconds}s`;
+                }
+                
+                // Save to the specific location for the second period exam
+                function saveResultsToFirebase(retryCount = 0) {
+                    database.ref(`examResults10/${EXAM_ID}`).push(resultData)
+                        .then(() => {
+                            console.log(`Results saved successfully to examResults10/${EXAM_ID}`);
+                        })
+                        .catch(error => {
+                            console.error('Error saving results:', error);
+                            
+                            if (retryCount < 3) {
+                                // Retry after a delay
+                                setTimeout(() => {
+                                    saveResultsToFirebase(retryCount + 1);
+                                }, 2000);
+                            } else {
+                                alert('There was an error saving your results. Please take a screenshot of this page and contact your administrator.');
+                            }
+                        });
+                }
+                
+                saveResultsToFirebase();
+            }
+        } catch (error) {
+            console.error("Error initializing Firebase:", error);
+            document.getElementById('syncStatus').textContent = 'Error initializing Firebase: ' + error.message;
+            document.getElementById('syncStatus').className = 'sync-status offline';
+        }
+    });
+</script>
+</body>
+</html>

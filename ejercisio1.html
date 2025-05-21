@@ -1,0 +1,3013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete English Language Exercises</title>
+    <link rel="icon" href="img/mr-jes-logo.png" type="image/png">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #f97316;
+            --light-gray: #f3f4f6;
+            --dark-gray: #374151;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9fafb;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        h1, h2, h3 {
+            color: var(--dark-gray);
+            margin-bottom: 15px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            border-bottom: 2px solid var(--light-gray);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-top: 40px;
+        }
+        
+        h3 {
+            border-left: 4px solid var(--secondary);
+            padding-left: 10px;
+            margin-top: 25px;
+        }
+        
+        .exercise {
+            background-color: var(--light-gray);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .question {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .question:last-child {
+            border-bottom: none;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+                
+        .word-box-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .word-box-table th {
+            background-color: #9ca3af;
+            color: white;
+            text-align: left;
+            padding: 8px 12px;
+            font-weight: bold;
+        }
+
+        .word-box-table td {
+            padding: 8px 12px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }                   
+        
+        .options {
+            display: flex;
+            gap: 15px;
+            margin-top: 5px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-height: 80px;
+        }
+        
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .unit-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .unit-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .unit-subtitle {
+            font-size: 18px;
+            color: var(--secondary);
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .success {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        
+        .error {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+        
+        .image-container {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .reading-text {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            line-height: 1.8;
+        }
+        
+        .word-box {
+            background-color: #e0e7ff;
+            border: 1px solid #c7d2fe;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .conversation {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .conversation-line {
+            margin-bottom: 10px;
+        }
+        
+        .speaker {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .page-number {
+            text-align: center;
+            font-weight: bold;
+            margin: 20px 0;
+            color: var(--dark-gray);
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+        
+        .unit-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+        
+        .nav-button {
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-button:hover {
+            background-color: #e5e7eb;
+        }
+        
+        /* Added styles for answer feedback */
+        .correct {
+            border: 2px solid var(--success) !important;
+            background-color: rgba(16, 185, 129, 0.1);
+        }
+        
+        .incorrect {
+            border: 2px solid var(--error) !important;
+            background-color: rgba(239, 68, 68, 0.1);
+        }
+        
+        .answer-feedback {
+            margin-top: 5px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .correct-answer {
+            color: var(--success);
+            font-weight: bold;
+        }
+        
+        .wrong-answer {
+            color: var(--error);
+            font-weight: bold;
+        }
+        
+        .show-answers-btn {
+            background-color: var(--secondary);
+            margin-left: 10px;
+        }
+        
+        .show-answers-btn:hover {
+            background-color: #ea580c;
+        }
+        
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .options {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .unit-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .unit-subtitle {
+                margin-top: 5px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>English Language Exercises</h1>
+        
+        <div class="unit-navigation">
+            <button class="nav-button" onclick="showUnit('unit1')">Unit 1: Meeting People</button>
+            <button class="nav-button" onclick="showUnit('unit2')">Unit 2: My Things</button>
+            <button class="nav-button" onclick="showUnit('unit3')">Unit 3: All About Me</button>
+        </div>
+        
+        <!-- UNIT 1: MEETING PEOPLE -->
+        <div id="unit1" class="unit">
+            <div class="unit-header">
+                <div class="unit-title">UNIT 1</div>
+                <div class="unit-subtitle">MEETING PEOPLE</div>
+            </div>
+            
+            <div class="page-number">1</div>
+            
+            <!-- Vocabulary Section -->
+            <h2>Vocabulary</h2>
+            
+            <div class="exercise">
+                <h3>A. Unscramble the letters to form words from the word box.</h3>
+                <table class="word-box-table">
+                    <tr>
+                        <th colspan="3">Word Box</th>
+                    </tr>
+                    <tr>
+                        <td>city</td>
+                        <td>meet</td>
+                        <td>number</td>
+                    </tr>
+                    <tr>
+                        <td>country</td>
+                        <td>live</td>
+                        <td>school</td>
+                    </tr>
+                    <tr>
+                        <td>grade</td>
+                        <td>name</td>
+                        <td>spell</td>
+                    </tr>
+                </table>
+                
+                <div class="question">
+                    <label>1. itcy</label>
+                    <input type="text" id="u1-a-1" placeholder="Unscramble the letters...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. gaedr</label>
+                    <input type="text" id="u1-a-2" placeholder="Unscramble the letters...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. veli</label>
+                    <input type="text" id="u1-a-3" placeholder="Unscramble the letters...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. eamn</label>
+                    <input type="text" id="u1-a-4" placeholder="Unscramble the letters...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>5. cosolh</label>
+                    <input type="text" id="u1-a-5" placeholder="Unscramble the letters...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>6. plels</label>
+                    <input type="text" id="u1-a-6" placeholder="Unscramble the letters...">
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <h3>B. Read each sentence. Circle the correct answer.</h3>
+                
+                <div class="question">
+                    <label>1. China is a very large (city / country).</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-b-1" id="u1-b-1-a" value="city">
+                            <label for="u1-b-1-a">city</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-b-1" id="u1-b-1-b" value="country">
+                            <label for="u1-b-1-b">country</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. Beijing is a busy (city / country).</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-b-2" id="u1-b-2-a" value="city">
+                            <label for="u1-b-2-a">city</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-b-2" id="u1-b-2-b" value="country">
+                            <label for="u1-b-2-b">country</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. When I (spell / meet) someone, I say "Hello."</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-b-3" id="u1-b-3-a" value="spell">
+                            <label for="u1-b-3-a">spell</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-b-3" id="u1-b-3-b" value="meet">
+                            <label for="u1-b-3-b">meet</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. My house (number / name) is 332.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-b-4" id="u1-b-4-a" value="number">
+                            <label for="u1-b-4-a">number</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-b-4" id="u1-b-4-b" value="name">
+                            <label for="u1-b-4-b">name</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>5. It is easy to (live / spell) short words.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-b-5" id="u1-b-5-a" value="live">
+                            <label for="u1-b-5-a">live</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-b-5" id="u1-b-5-b" value="spell">
+                            <label for="u1-b-5-b">spell</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>6. Lillian is a student in (school / grade) nine.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-b-6" id="u1-b-6-a" value="school">
+                            <label for="u1-b-6-a">school</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-b-6" id="u1-b-6-b" value="grade">
+                            <label for="u1-b-6-b">grade</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <h3>C. Complete the sentences using words from the word box.</h3>
+                <div class="word-box">
+                    Word Box: city, country, grade, live, meet, name, number, school, spell
+                </div>
+                
+                <div class="question">
+                    <label>1. Mara is in ________ ten.</label>
+                    <input type="text" id="u1-c-1" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. Every day I take the bus to ________.</label>
+                    <input type="text" id="u1-c-2" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. My best friend and I have the same ________!</label>
+                    <input type="text" id="u1-c-3" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. Chiang Mai is a big ________ in Thailand.</label>
+                    <input type="text" id="u1-c-4" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>5. Where do you ________?</label>
+                    <input type="text" id="u1-c-5" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>6. Please ________ the name of your school.</label>
+                    <input type="text" id="u1-c-6" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="page-number">2</div>
+            
+            <!-- Grammar Section -->
+            <h2>Grammar</h2>
+            
+            <div class="exercise">
+                <h3>Simple Present of the verb Be</h3>
+                <h3>A. Complete the sentences with the simple present of the verb be (am, is, or are).</h3>
+                
+                <div class="question">
+                    <label>1. I ________ a student.</label>
+                    <input type="text" id="u1-gram-a-1" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. We ________ on the soccer team.</label>
+                    <input type="text" id="u1-gram-a-2" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. My sister ________ on the swim team.</label>
+                    <input type="text" id="u1-gram-a-3" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. You ________ in my English class.</label>
+                    <input type="text" id="u1-gram-a-4" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>5. I ________ Joe's best friend.</label>
+                    <input type="text" id="u1-gram-a-5" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>6. Math ________ my favorite subject.</label>
+                    <input type="text" id="u1-gram-a-6" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <h3>B. Look at the picture. Choose the sentence that best describes it.</h3>
+                
+                <div class="question">
+                    <label>1.</label>
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=1470&auto=format&fit=crop" alt="Students in a classroom">
+                    </div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-gram-b-1" id="u1-gram-b-1-a" value="a">
+                            <label for="u1-gram-b-1-a">a. You are a basketball player.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-gram-b-1" id="u1-gram-b-1-b" value="b">
+                            <label for="u1-gram-b-1-b">b. We are on the train.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-gram-b-1" id="u1-gram-b-1-c" value="c">
+                            <label for="u1-gram-b-1-c">c. They are students.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-gram-b-1" id="u1-gram-b-1-d" value="d">
+                            <label for="u1-gram-b-1-d">d. I am happy.</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2.</label>
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?q=80&w=1470&auto=format&fit=crop" alt="Rainy night scene">
+                    </div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-gram-b-2" id="u1-gram-b-2-a" value="a">
+                            <label for="u1-gram-b-2-a">a. It is a rainy night.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-gram-b-2" id="u1-gram-b-2-b" value="b">
+                            <label for="u1-gram-b-2-b">b. We are happy.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-gram-b-2" id="u1-gram-b-2-c" value="c">
+                            <label for="u1-gram-b-2-c">c. I am your friend.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-gram-b-2" id="u1-gram-b-2-d" value="d">
+                            <label for="u1-gram-b-2-d">d. You are at school.</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="page-number">3</div>
+            
+            <div class="exercise">
+                <h3>Simple Present Tense of Action Verbs</h3>
+                <h3>C. Read each sentence. Circle the correct answer.</h3>
+                
+                <div class="question">
+                    <label>1. My mom (don't / doesn't) cook dinner every night.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-gram-c-1" id="u1-gram-c-1-a" value="don't">
+                            <label for="u1-gram-c-1-a">don't</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-gram-c-1" id="u1-gram-c-1-b" value="doesn't">
+                            <label for="u1-gram-c-1-b">doesn't</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. I (travel / travels) to a different country every summer.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-gram-c-2" id="u1-gram-c-2-a" value="travel">
+                            <label for="u1-gram-c-2-a">travel</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-gram-c-2" id="u1-gram-c-2-b" value="travels">
+                            <label for="u1-gram-c-2-b">travels</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. My dog (play / plays) all day.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-gram-c-3" id="u1-gram-c-3-a" value="play">
+                            <label for="u1-gram-c-3-a">play</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-gram-c-3" id="u1-gram-c-3-b" value="plays">
+                            <label for="u1-gram-c-3-b">plays</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. You (ride / rides) your bike everywhere!</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-gram-c-4" id="u1-gram-c-4-a" value="ride">
+                            <label for="u1-gram-c-4-a">ride</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-gram-c-4" id="u1-gram-c-4-b" value="rides">
+                            <label for="u1-gram-c-4-b">rides</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>5. Do they (live / lives) in Bangkok?</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-gram-c-5" id="u1-gram-c-5-a" value="live">
+                            <label for="u1-gram-c-5-a">live</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-gram-c-5" id="u1-gram-c-5-b" value="lives">
+                            <label for="u1-gram-c-5-b">lives</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>6. (Do / Does) Lee talk on his cell phone all the time?</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-gram-c-6" id="u1-gram-c-6-a" value="Do">
+                            <label for="u1-gram-c-6-a">Do</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-gram-c-6" id="u1-gram-c-6-b" value="Does">
+                            <label for="u1-gram-c-6-b">Does</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>7. We (don't / doesn't) play in the soccer team.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-gram-c-7" id="u1-gram-c-7-a" value="don't">
+                            <label for="  name="u1-gram-c-7" id="u1-gram-c-7-a" value="don't">
+                            <label for="u1-gram-c-7-a">don't</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-gram-c-7" id="u1-gram-c-7-b" value="doesn't">
+                            <label for="u1-gram-c-7-b">doesn't</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>8. Candy doesn't (meet / meets) her friends after school.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-gram-c-8" id="u1-gram-c-8-a" value="meet">
+                            <label for="u1-gram-c-8-a">meet</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-gram-c-8" id="u1-gram-c-8-b" value="meets">
+                            <label for="u1-gram-c-8-b">meets</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <h3>D. Write about things you and your friends do or don't do. Use the correct form of the action verbs play, cook, carry, walk, and read.</h3>
+                
+                <div class="question">
+                    <label>1. I like to ________.</label>
+                    <input type="text" id="u1-gram-d-1-1" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>I like to ________.</label>
+                    <input type="text" id="u1-gram-d-1-2" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>I like to ________.</label>
+                    <input type="text" id="u1-gram-d-1-3" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. My friend ________.</label>
+                    <input type="text" id="u1-gram-d-2-1" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>My friend ________.</label>
+                    <input type="text" id="u1-gram-d-2-2" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>My friend ________.</label>
+                    <input type="text" id="u1-gram-d-2-3" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. My friend and I ________.</label>
+                    <input type="text" id="u1-gram-d-3-1" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>We ________.</label>
+                    <input type="text" id="u1-gram-d-3-2" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>We ________.</label>
+                    <input type="text" id="u1-gram-d-3-3" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <h3>E. Write about your daily routine using the simple present.</h3>
+                <textarea id="u1-gram-e" placeholder="Write about your daily routine..."></textarea>
+                <div class="answer-feedback"></div>
+            </div>
+            
+            <div class="page-number">4</div>
+            
+            <!-- Conversation Section -->
+            <h2>Conversation</h2>
+            
+            <div class="exercise">
+                <h3>Speaking Strategy: Greetings and saying goodbye</h3>
+                <h3>A. Complete the conversations using these words or expressions.</h3>
+                <div class="word-box">
+                    Goodbye, Hello, Hi, Bye, See you later
+                </div>
+                
+                <div class="conversation">
+                    <div class="conversation-line"><span class="speaker">Panit:</span> (1) <input type="text" id="u1-conv-a-1" style="width: 100px;"> Lawan. How are you?</div>
+                    <div class="conversation-line"><span class="speaker">Lawan:</span> (2) <input type="text" id="u1-conv-a-2" style="width: 100px;"> Panit. I'm fine. Do you want to have lunch with me?</div>
+                    <div class="conversation-line"><span class="speaker">Panit:</span> No, thanks, I have to go to class now.</div>
+                    <div class="conversation-line"><span class="speaker">Lawan:</span> OK, another time. (3) <input type="text" id="u1-conv-a-3" style="width: 100px;">.</div>
+                    <div class="conversation-line"><span class="speaker">Panit:</span> Yes, (4) <input type="text" id="u1-conv-a-4" style="width: 100px;">.</div>
+                </div>
+                <div class="answer-feedback"></div>
+                
+                <div class="conversation">
+                    <div class="conversation-line"><span class="speaker">Hathai:</span> (5) <input type="text" id="u1-conv-a-5" style="width: 100px;"> Kanda. Are you in this class?</div>
+                    <div class="conversation-line"><span class="speaker">Kanda:</span> (6) <input type="text" id="u1-conv-a-6" style="width: 100px;"> Hathai. Yes, I am. Now we can study together.</div>
+                    <div class="conversation-line"><span class="speaker">Hathai:</span> Yes, that is a good idea. I will text you.</div>
+                    <div class="conversation-line"><span class="speaker">Kanda:</span> That's a good idea. I have to go now. (7) <input type="text" id="u1-conv-a-7" style="width: 100px;">.</div>
+                    <div class="conversation-line"><span class="speaker">Hathai:</span> So do I. (8) <input type="text" id="u1-conv-a-8" style="width: 100px;">.</div>
+                </div>
+                <div class="answer-feedback"></div>
+            </div>
+            
+            <div class="exercise">
+                <h3>B. Write a short conversation about meeting your friend at the mall. Use words and phrases from Activity A.</h3>
+                <div class="conversation">
+                    <div class="conversation-line"><span class="speaker">A:</span> <input type="text" id="u1-conv-b-1" style="width: 300px;"></div>
+                    <div class="conversation-line"><span class="speaker">B:</span> <input type="text" id="u1-conv-b-2" style="width: 300px;"></div>
+                    <div class="conversation-line"><span class="speaker">A:</span> <input type="text" id="u1-conv-b-3" style="width: 300px;"></div>
+                    <div class="conversation-line"><span class="speaker">B:</span> <input type="text" id="u1-conv-b-4" style="width: 300px;"></div>
+                    <div class="conversation-line"><span class="speaker">A:</span> <input type="text" id="u1-conv-b-5" style="width: 300px;"></div>
+                </div>
+                <div class="answer-feedback"></div>
+            </div>
+            
+            <div class="page-number">5</div>
+            
+            <!-- Reading Section -->
+            <h2>Reading</h2>
+            
+            <div class="exercise">
+                <h3>Reading Strategy: Read for specific information</h3>
+                <h3>Before Reading</h3>
+                
+                <div class="question">
+                    <label>A. What do you say or do when you meet someone from your family?</label>
+                    <textarea id="u1-read-before-a" placeholder="Write your answer..."></textarea>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <h3>B. Look at the pictures and underline specific information about Saying Hello in each country.</h3>
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1516534775068-ba3e7458af70?q=80&w=1470&auto=format&fit=crop" alt="Global greetings">
+                    </div>
+                    <div class="reading-text">
+                        <h4>More Ways to Say Hello Around the World</h4>
+                        <p><strong>China:</strong> In China, people bow or nod their heads to each other.</p>
+                        <p><strong>India:</strong> In India, people put their hands together. They nod their heads and they say namaste.</p>
+                        <p><strong>Thailand:</strong> In Thailand, you put your hands together, with your arms down. Then you bow your head. This is called wai.</p>
+                        <p><strong>U.S.:</strong> In the U.S., most people shake hands. Each person puts out his or her right hand. They hold hands and sometimes move the hands up and down.</p>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <h3>After Reading</h3>
+                <h3>C. Read the sentences and choose T for True or F for False. Correct the false statements.</h3>
+                
+                <div class="question">
+                    <label>1. In the U.S., people say Hongi!</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-read-after-c-1" id="u1-read-after-c-1-t" value="T">
+                            <label for="u1-read-after-c-1-t">T</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-read-after-c-1" id="u1-read-after-c-1-f" value="F">
+                            <label for="u1-read-after-c-1-f">F</label>
+                        </div>
+                    </div>
+                    <input type="text" id="u1-read-after-c-1-correction" placeholder="Correction (if false)...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. In China, people put their hands together to say hello.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-read-after-c-2" id="u1-read-after-c-2-t" value="T">
+                            <label for="u1-read-after-c-2-t">T</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-read-after-c-2" id="u1-read-after-c-2-f" value="F">
+                            <label for="u1-read-after-c-2-f">F</label>
+                        </div>
+                    </div>
+                    <input type="text" id="u1-read-after-c-2-correction" placeholder="Correction (if false)...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. In India, people nod their heads.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-read-after-c-3" id="u1-read-after-c-3-t" value="T">
+                            <label for="u1-read-after-c-3-t">T</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-read-after-c-3" id="u1-read-after-c-3-f" value="F">
+                            <label for="u1-read-after-c-3-f">F</label>
+                        </div>
+                    </div>
+                    <input type="text" id="u1-read-after-c-3-correction" placeholder="Correction (if false)...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. In Thailand, people put their arms out straight.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-read-after-c-4" id="u1-read-after-c-4-t" value="T">
+                            <label for="u1-read-after-c-4-t">T</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-read-after-c-4" id="u1-read-after-c-4-f" value="F">
+                            <label  name="u1-read-after-c-4" id="u1-read-after-c-4-f" value="F">
+                            <label for="u1-read-after-c-4-f">F</label>
+                        </div>
+                    </div>
+                    <input type="text" id="u1-read-after-c-4-correction" placeholder="Correction (if false)...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>5. In the U.S., people shake hands.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-read-after-c-5" id="u1-read-after-c-5-t" value="T">
+                            <label for="u1-read-after-c-5-t">T</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-read-after-c-5" id="u1-read-after-c-5-f" value="F">
+                            <label for="u1-read-after-c-5-f">F</label>
+                        </div>
+                    </div>
+                    <input type="text" id="u1-read-after-c-5-correction" placeholder="Correction (if false)...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>6. In China, people say namaste.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u1-read-after-c-6" id="u1-read-after-c-6-t" value="T">
+                            <label for="u1-read-after-c-6-t">T</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u1-read-after-c-6" id="u1-read-after-c-6-f" value="F">
+                            <label for="u1-read-after-c-6-f">F</label>
+                        </div>
+                    </div>
+                    <input type="text" id="u1-read-after-c-6-correction" placeholder="Correction (if false)...">
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="page-number">6</div>
+            
+            <!-- Writing Section -->
+            <h2>Writing</h2>
+            
+            <div class="exercise">
+                <h3>Writing Strategy: Use capital letters correctly</h3>
+                <h3>A. Rewrite the paragraph using capital letters correctly.</h3>
+                
+                <div class="question">
+                    <label>Steps:</label>
+                    <ol>
+                        <li>Find the mistakes in the paragraph.</li>
+                        <ul>
+                            <li>Use a capital letter to start the first word in each sentence.</li>
+                            <li>Use capital letters for names of people and places.</li>
+                            <li>Use capital letters for months and days of the week.</li>
+                        </ul>
+                        <li>Rewrite the paragraph.</li>
+                    </ol>
+                    
+                    <div class="reading-text">
+                        hello! my name is ming. I live in beijing, china. every year, i visit my friend cheng in new york. my plane leaves on thursday.
+                    </div>
+                    
+                    <textarea id="u1-write-a" placeholder="Rewrite the paragraph with correct capitalization..."></textarea>
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+        
+        <div class="unit-navigation" style="margin-top: 30px;">
+            <button class="nav-button" onclick="showUnit('unit1')">Unit 1: Meeting People</button>
+            <button class="nav-button" onclick="showUnit('unit2')">Unit 2: My Things</button>
+            <button class="nav-button" onclick="showUnit('unit3')">Unit 3: All About Me</button>
+        </div>
+        </div>
+        
+        <!-- UNIT 2: MY THINGS -->
+        <div id="unit2" class="unit" style="display: none;">
+            <div class="unit-header">
+                <div class="unit-title">UNIT 2</div>
+                <div class="unit-subtitle">MY THINGS</div>
+            </div>
+            
+            <div class="page-number">7</div>
+            
+            <!-- Vocabulary Section -->
+            <h2>Vocabulary</h2>
+            
+            <div class="exercise">
+                <h3>A. Write the word that matches the picture. Use words from the word box.</h3>
+                <div class="word-box">
+                    Word Box: bike, favorite, friend, game, laptop, necklace, present, smartphone, swipe, switch off, tablet, watch
+                </div>
+                
+                <div class="question">
+                    <label>1.</label>
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1598327105666-5b89351aff97?q=80&w=1527&auto=format&fit=crop" alt="Smartphone">
+                    </div>
+                    <input type="text" id="u2-a-1" placeholder="Write the word...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2.</label>
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=1471&auto=format&fit=crop" alt="Laptop">
+                    </div>
+                    <input type="text" id="u2-a-2" placeholder="Write the word...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3.</label>
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1587&auto=format&fit=crop" alt="Necklace">
+                    </div>
+                    <input type="text" id="u2-a-3" placeholder="Write the word...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4.</label>
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?q=80&w=1471&auto=format&fit=crop" alt="Tablet">
+                    </div>
+                    <input type="text" id="u2-a-4" placeholder="Write the word...">
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <h3>B. Read each sentence. Circle the correct answer.</h3>
+                
+                <div class="question">
+                    <label>1. Preeda rides her (bike / tablet) to school every day.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-b-1" id="u2-b-1-a" value="bike">
+                            <label for="u2-b-1-a">bike</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-b-1" id="u2-b-1-b" value="tablet">
+                            <label for="u2-b-1-b">tablet</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. (Swipe / Switch off) your tablet to look at your photos.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-b-2" id="u2-b-2-a" value="Swipe">
+                            <label for="u2-b-2-a">Swipe</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-b-2" id="u2-b-2-b" value="Switch off">
+                            <label for="u2-b-2-b">Switch off</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. Dan and his (friend / laptop), Jin, play games together.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-b-3" id="u2-b-3-a" value="friend">
+                            <label for="u2-b-3-a">friend</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-b-3" id="u2-b-3-b" value="laptop">
+                            <label for="u2-b-3-b">laptop</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. Fen reads her (favorite / smartphone) book on her tablet.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-b-4" id="u2-b-4-a" value="favorite">
+                            <label for="u2-b-4-a">favorite</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-b-4" id="u2-b-4-b" value="smartphone">
+                            <label for="u2-b-4-b">smartphone</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <h3>C. Complete the sentences using words from the word box.</h3>
+                <div class="word-box">
+                    Word Box: bike, game, present, switch off, favorite, laptop, smartphone, tablet, friend, necklace, swipe, watch
+                </div>
+                
+                <div class="question">
+                    <label>1. Let's play a ________ of tennis now.</label>
+                    <input type="text" id="u2-c-1" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. You ________ the tablet screen to see the next page.</label>
+                    <input type="text" id="u2-c-2" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. Kanda is wearing her grandmother's gold ________.</label>
+                    <input type="text" id="u2-c-3" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. Somsak is buying a ________ for his mother's birthday.</label>
+                    <input type="text" id="u2-c-4" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="page-number">8</div>
+            
+            <!-- Grammar Section -->
+            <h2>Grammar</h2>
+            
+            <div class="exercise">
+                <h3>Demonstrative Pronouns: this, that, these, those</h3>
+                <h3>A. Underline the demonstrative pronoun and circle S for singular or P for plural.</h3>
+                
+                <div class="question">
+                    <label>1. That is the biggest star in the sky.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-gram-a-1" id="u2-gram-a-1-s" value="S">
+                            <label for="u2-gram-a-1-s">S</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-gram-a-1" id="u2-gram-a-1-p" value="P">
+                            <label for="u2-gram-a-1-p">P</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. These are delicious cookies.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-gram-a-2" id="u2-gram-a-2-s" value="S">
+                            <label for="u2-gram-a-2-s">S</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-gram-a-2" id="u2-gram-a-2-p" value="P">
+                            <label for="u2-gram-a-2-p">P</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. Do you like that?</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-gram-a-3" id="u2-gram-a-3-s" value="S">
+                            <label for="u2-gram-a-3-s">S</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-gram-a-3" id="u2-gram-a-3-p" value="P">
+                            <label for="u2-gram-a-3-p">P</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. This is a good movie.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-gram-a-4" id="u2-gram-a-4-s" value="S">
+                            <label for="u2-gram-a-4-s">S</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-gram-a-4" id="u2-gram-a-4-p" value="P">
+                            <label for="u2-gram-a-4-p">P</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>5. Are those your books?</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-gram-a-5" id="u2-gram-a-5-s" value="S">
+                            <label for="u2-gram-a-5-s">S</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-gram-a-5" id="u2-gram-a-5-p" value="P">
+                            <label for="u2-gram-a-5-p">P</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>6. These are my friends, Kate and Ben.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-gram-a-6" id="u2-gram-a-6-s" value="S">
+                            <label for="u2-gram-a-6-s">S</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-gram-a-6" id="u2-gram-a-6-p" value="P">
+                            <label for="u2-gram-a-6-p">P</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <h3>B. Read each sentence. Circle the correct answer.</h3>
+                
+                <div class="question">
+                    <label>1. I have a new necklace. I can wear (this / these) to the party.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-gram-b-1" id="u2-gram-b-1-a" value="this">
+                            <label for="u2-gram-b-1-a">this</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-gram-b-1" id="u2-gram-b-1-b" value="these">
+                            <label for="u2-gram-b-1-b">these</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. (That / Those) is Mom's laptop.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-gram-b-2" id="u2-gram-b-2-a" value="That">
+                            <label for="u2-gram-b-2-a">That</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-gram-b-2" id="u2-gram-b-2-b" value="Those">
+                            <label for="u2-gram-b-2-b">Those</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. (This / These) are my favorite games.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-gram-b-3" id="u2-gram-b-3-a" value="This">
+                            <label for="u2-gram-b-3-a">This</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-gram-b-3" id="u2-gram-b-3-b" value="These">
+                            <label for="u2-gram-b-3-b">These</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. (That / Those) are the presents for Grandma.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-gram-b-4" id="u2-gram-b-4-a" value="That">
+                            <label for="u2-gram-b-4-a">That</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-gram-b-4" id="u2-gram-b-4-b" value="Those">
+                            <label for="u2-gram-b-4-b">Those</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>5. (This / These) is a great smartphone.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-gram-b-5" id="u2-gram-b-5-a" value="This">
+                            <label for="u2-gram-b-5-a">This</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-gram-b-5" id="u2-gram-b-5-b" value="These">
+                            <label for="u2-gram-b-5-b">These</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>6. (That / Those) isn't an easy question!</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-gram-b-6" id="u2-gram-b-6-a" value="That">
+                            <label for="u2-gram-b-6-a">That</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-gram-b-6" id="u2-gram-b-6-b" value="Those">
+                            <label for="u2-gram-b-6-b">Those</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="page-number">9</div>
+            
+            <div class="exercise">
+                <h3>C. Complete each sentence with this, that, these, or those.</h3>
+                
+                <div class="question">
+                    <label>1. I don't usually like fish, but ________ is very nice!</label>
+                    <input type="text" id="u2-gram-c-1" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. Your toys are in the living room. Please put ________ in the toy box.</label>
+                    <input type="text" id="u2-gram-c-2" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. Look at ________. It's a blog about the football team.</label>
+                    <input type="text" id="u2-gram-c-3" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. Look at ________! It's a very big star!</label>
+                    <input type="text" id="u2-gram-c-4" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>5. ________ are nice, sunny days.</label>
+                    <input type="text" id="u2-gram-c-5" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>6. Is ________ Tara over there?</label>
+                    <input type="text" id="u2-gram-c-6" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <h3>a / an</h3>
+                <h3>D. Circle a or an.</h3>
+                
+                <div class="question">
+                    <label>1. (a / an) book</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-gram-d-1" id="u2-gram-d-1-a" value="a">
+                            <label for="u2-gram-d-1-a">a</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-gram-d-1" id="u2-gram-d-1-b" value="an">
+                            <label for="u2-gram-d-1-b">an</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. (a / an) friend</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-gram-d-2" id="u2-gram-d-2-a" value="a">
+                            <label for="u2-gram-d-2-a">a</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-gram-d-2" id="u2-gram-d-2-b" value="an">
+                            <label for="u2-gram-d-2-b">an</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. (a / an) number</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-gram-d-3" id="u2-gram-d-3-a" value="a">
+                            <label for="u2-gram-d-3-a">a</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-gram-d-3" id="u2-gram-d-3-b" value="an">
+                            <label for="u2-gram-d-3-b">an</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. (a / an) aunt</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-gram-d-4" id="u2-gram-d-4-a" value="a">
+                            <label for="u2-gram-d-4-a">a</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-gram-d-4" id="u2-gram-d-4-b" value="an">
+                            <label for="u2-gram-d-4-b">an</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>5. (a / an) present</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-gram-d-5" id="u2-gram-d-5-a" value="a">
+                            <label for="u2-gram-d-5-a">a</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-gram-d-5" id="u2-gram-d-5-b" value="an">
+                            <label for="u2-gram-d-5-b">an</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>6. (a / an) elephant</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u2-gram-d-6" id="u2-gram-d-6-a" value="a">
+                            <label for="u2-gram-d-6-a">a</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u2-gram-d-6" id="u2-gram-d-6-b" value="an">
+                            <label for="u2-gram-d-6-b">an</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <h3>E. Write a or an.</h3>
+                
+                <div class="question">
+                    <label>1. ____ smartphone</label>
+                    <input type="text" id="u2-gram-e-1" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. ____ orange</label>
+                    <input type="text" id="u2-gram-e-2" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. ____ school</label>
+                    <input type="text" id="u2-gram-e-3" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. ____ umbrella</label>
+                    <input type="text" id="u2-gram-e-4" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>5. ____ sister</label>
+                    <input type="text" id="u2-gram-e-5" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>6. ____ game</label>
+                    <input type="text" id="u2-gram-e-6" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <h3>F. Make a list of your favorite things. Write a or an in front of each noun.</h3>
+                
+                <div class="question">
+                    <label>1.</label>
+                    <input type="text" id="u2-gram-f-1" placeholder="Write a or an + noun...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2.</label>
+                    <input type="text" id="u2-gram-f-2" placeholder="Write a or an + noun...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3.</label>
+                    <input type="text" id="u2-gram-f-3" placeholder="Write a or an + noun...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4.</label>
+                    <input type="text" id="u2-gram-f-4" placeholder="Write a or an + noun...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>5.</label>
+                    <input type="text" id="u2-gram-f-5" placeholder="Write a or an + noun...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>6.</label>
+                    <input type="text" id="u2-gram-f-6" placeholder="Write a or an + noun...">
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <h3>G. Write four sentences about your things. Use this, that, these or those, and the articles a and an.</h3>
+                <textarea id="u2-gram-g" placeholder="Write your sentences..."></textarea>
+                <div class="answer-feedback"></div>
+            </div>
+            
+            <div class="page-number">10</div>
+            
+            <!-- Conversation Section -->
+            <h2>Conversation</h2>
+            
+            <div class="exercise">
+                <h3>Speaking Strategy: Give instructions</h3>
+                <h3>A. Complete the conversation using these words.</h3>
+                <div class="word-box">
+                    I see, Now what, Switch, Sorry, swipe, click
+                </div>
+                
+                <div class="conversation">
+                    <div class="conversation-line"><span class="speaker">Marina:</span> Hi Tina. I want to do some online shopping. Can you help me?</div>
+                    <div class="conversation-line"><span class="speaker">Tina:</span> Sure, Marina. (1) <input type="text" id="u2-conv-a-1" style="width: 100px;"> on the tablet, and type the name of the store in the box.</div>
+                    <div class="conversation-line"><span class="speaker">Marina:</span> OK, (2) <input type="text" id="u2-conv-a-2" style="width: 100px;">. Now the store names are on the screen.</div>
+                    <div class="conversation-line"><span class="speaker">Tina:</span> (3) <input type="text" id="u2-conv-a-3" style="width: 100px;"> on the store that you want.</div>
+                    <div class="conversation-line"><span class="speaker">Marina:</span> Here it is. (4) <input type="text" id="u2-conv-a-4" style="width: 100px;">?</div>
+                    <div class="conversation-line"><span class="speaker">Tina:</span> Next, (5) <input type="text" id="u2-conv-a-5" style="width: 100px;"> the screen to find the thing you like.</div>
+                    <div class="conversation-line"><span class="speaker">Marina:</span> (6) <input type="text" id="u2-conv-a-6" style="width: 100px;">, where do I choose a color?</div>
+                    <div class="conversation-line"><span class="speaker">Tina:</span> Click on the box next to the clothes.</div>
+                    <div class="conversation-line"><span class="speaker">Marina:</span> Thanks, Tina!</div>
+                </div>
+                <div class="answer-feedback"></div>
+            </div>
+            
+            <div class="exercise">
+                <h3>B. Think of an app that you know about. Tell a friend how to use the app. Use words from Activity A.</h3>
+                <div class="question">
+                    <label>First,</label>
+                    <input type="text" id="u2-conv-b-1" placeholder="Write your instructions...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>Next,</label>
+                    <input type="text" id="u2-conv-b-2" placeholder="Write your instructions...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>Then,</label>
+                    <input type="text" id="u2-conv-b-3" placeholder="Write your instructions...">
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="page-number">11</div>
+            
+            <!-- Reading Section -->
+            <h2>Reading</h2>
+            
+            <div class="exercise">
+                <h3>Before Reading</h3>
+                <h3>A. Look at the picture and read the title below. Answer the questions.</h3>
+                <div class="image-container">
+                    <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1470&auto=format&fit=crop" alt="Special quilt">
+                </div>
+                <h4>My Special Quilt</h4>
+                
+                <div class="question">
+                    <label>1. What do you think the story is about?</label>
+                    <textarea id="u2-read-before-a-1" placeholder="Write your answer..."></textarea>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. How do you know?</label>
+                    <textarea id="u2-read-before-a-2" placeholder="Write your answer..."></textarea>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. What do you think makes this quilt special?</label>
+                    <textarea id="u2-read-before-a-3" placeholder="Write your answer..."></textarea>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <h3>B. Read the text. Underline the main idea and specific details.</h3>
+                    <div class="reading-text">
+                        <h4>My Special Quilt</h4>
+                        <p>I'm Louisa, and I have a special quilt. It is my favorite thing. It is special because it's from my grandmother. It's a purple quilt because Grandma knows it's my favorite color. My mom and grandma make clothes for our family. Grandma uses pieces of the clothes to make quilts. One part of my quilt is from my old school dress. Another part is from my little brother's shirt. Some of the white part is from my mother's dress.</p>
+                        <p>I like things that Grandma makes. She makes them with so much love. Every time I look at my quilt, I think about Grandma. I think about good times with my family. My best friends like my quilt. They want to have special quilts, too. I have a special Grandma!</p>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="page-number">12</div>
+            
+            <div class="exercise">
+                <h3>After Reading</h3>
+                <h3>C. Read and answer the questions.</h3>
+                
+                <div class="question">
+                    <label>1. Who is Louisa's quilt from?</label>
+                    <input type="text" id="u2-read-after-c-1" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. Why does Grandma put purple in the quilt?</label>
+                    <input type="text" id="u2-read-after-c-2" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. What color is the part from her mother's dress?</label>
+                    <input type="text" id="u2-read-after-c-3" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. Who does Louisa think about when she looks at her quilt?</label>
+                    <input type="text" id="u2-read-after-c-4" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>5. What do Louisa's friends think about her quilt?</label>
+                    <input type="text" id="u2-read-after-c-5" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>6. Do you have a special thing in your house? What is it? Why is it special to you?</label>
+                    <textarea id="u2-read-after-c-6" placeholder="Write your answer..."></textarea>
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Writing Section -->
+            <h2>Writing</h2>
+            
+            <div class="exercise">
+                <h3>Writing Strategy: Sequence</h3>
+                <h3>A. Write the steps for putting a photo on a social media website. Use the sequence words.</h3>
+                
+                <div class="question">
+                    <label>First,</label>
+                    <input type="text" id="u2-write-a-1" placeholder="Write your step...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>Second,</label>
+                    <input type="text" id="u2-write-a-2" placeholder="Write your step...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>Third,</label>
+                    <input type="text" id="u2-write-a-3" placeholder="Write your step...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>Next,</label>
+                    <input type="text" id="u2-write-a-4" placeholder="Write your step...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>Then,</label>
+                    <input type="text" id="u2-write-a-5" placeholder="Write your step...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>Last,</label>
+                    <input type="text" id="u2-write-a-6" placeholder="Write your step...">
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+        
+        <div class="unit-navigation" style="margin-top: 30px;">
+            <button class="nav-button" onclick="showUnit('unit1')">Unit 1: Meeting People</button>
+            <button class="nav-button" onclick="showUnit('unit2')">Unit 2: My Things</button>
+            <button class="nav-button" onclick="showUnit('unit3')">Unit 3: All About Me</button>
+        </div>
+        </div>
+        
+        <!-- UNIT 3: ALL ABOUT ME -->
+        <div id="unit3" class="unit" style="display: none;">
+            <div class="unit-header">
+                <div class="unit-title">UNIT 3</div>
+                <div class="unit-subtitle">ALL ABOUT ME</div>
+            </div>
+            
+            <div class="page-number">13</div>
+            
+            <!-- Vocabulary Section -->
+            <h2>Vocabulary</h2>
+            
+            <div class="exercise">
+                <h3>A. Complete the words.</h3>
+                <div class="word-box">
+                    Word Box: fashion, free time, good at, hobby, interested in, music, play (a sport), play (an instrument), sport
+                </div>
+                
+                <div class="question">
+                    <label>1. f a h _ o n</label>
+                    <input type="text" id="u3-a-1" placeholder="Complete the word...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. h o _ _ y</label>
+                    <input type="text" id="u3-a-2" placeholder="Complete the word...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. m _ s _ c</label>
+                    <input type="text" id="u3-a-3" placeholder="Complete the word...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. s p o _ t</label>
+                    <input type="text" id="u3-a-4" placeholder="Complete the word...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>5. p _ a _</label>
+                    <input type="text" id="u3-a-5" placeholder="Complete the word...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>6. f _ e _ _ t _ m _</label>
+                    <input type="text" id="u3-a-6" placeholder="Complete the word...">
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <h3>B. Match the words to their meaning.</h3>
+                
+                <div class="question">
+                    <label>1. good at</label>
+                    <select id="u3-b-1">
+                        <option value="">Select an answer...</option>
+                        <option value="1">an activity where you exercise your body</option>
+                        <option value="2">time away from work or school</option>
+                        <option value="3">able to do something well</option>
+                        <option value="4">make music on</option>
+                        <option value="5">the style of clothes</option>
+                        <option value="6">want to know more about</option>
+                    </select>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. interested in</label>
+                    <select id="u3-b-2">
+                        <option value="">Select an answer...</option>
+                        <option value="1">an activity where you exercise your body</option>
+                        <option value="2">time away from work or school</option>
+                        <option value="3">able to do something well</option>
+                        <option value="4">make music on</option>
+                        <option value="5">the style of clothes</option>
+                        <option value="6">want to know more about</option>
+                    </select>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. sport</label>
+                    <select id="u3-b-3">
+                        <option value="">Select an answer...</option>
+                        <option value="1">an activity where you exercise your body</option>
+                        <option value="2">time away from work or school</option>
+                        <option value="3">able to do something well</option>
+                        <option value="4">make music on</option>
+                        <option value="5">the style of clothes</option>
+                        <option value="6">want to know more about</option>
+                    </select>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. play</label>
+                    <select id="u3-b-4">
+                        <option value="">Select an answer...</option>
+                        <option value="1">an activity where you exercise your body</option>
+                        <option value="2">time away from work or school</option>
+                        <option value="3">able to do something well</option>
+                        <option value="4">make music on</option>
+                        <option value="5">the style of clothes</option>
+                        <option value="6">want to know more about</option>
+                    </select>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>5. fashion</label>
+                    <select id="u3-b-5">
+                        <option value="">Select an answer...</option>
+                        <option value="1">an activity where you exercise your body</option>
+                        <option value="2">time away from work or school</option>
+                        <option value="3">able to do something well</option>
+                        <option value="4">make music on</option>
+                        <option value="5">the style of clothes</option>
+                        <option value="6">want to know more about</option>
+                    </select>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>6. free time</label>
+                    <select id="u3-b-6">
+                        <option value="">Select an answer...</option>
+                        <option value="1">an activity where you exercise your body</option>
+                        <option value="2">time away from work or school</option>
+                        <option value="3">able to do something well</option>
+                        <option value="4">make music on</option>
+                        <option value="5">the style of clothes</option>
+                        <option value="6">want to know more about</option>
+                    </select>
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <h3>C. Complete the sentences using words or phrases from the word box.</h3>
+                
+                <div class="word-box">
+                    Word Box: fashion, free time, good at, hobby, interested in, music, play (a sport), play (an instrument), sport
+                </div>
+                
+                <div class="question">
+                    <label>1. Writing stories is Luk Sun's ________.</label>
+                    <input type="text" id="u3-c-1" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. Sid likes to listen to ________.</label>
+                    <input type="text" id="u3-c-2" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. Irina's favorite ________ is volleyball.</label>
+                    <input type="text" id="u3-c-3" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. Joseph wants to ________ his trumpet in the school band.</label>
+                    <input type="text" id="u3-c-4" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>5. Nuo loves clothes, so she writes about ________ for the school magazine.</label>
+                    <input type="text" id="u3-c-5" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>6. In his ________, Min helps old people.</label>
+                    <input type="text" id="u3-c-6" placeholder="Fill in the blank...">
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="page-number">14</div>
+            
+            <!-- Grammar Section -->
+            <h2>Grammar</h2>
+            
+            <div class="exercise">
+                <h3>Yes / No questions with the verb Be</h3>
+                <h3>A. Complete the Yes / No answers.</h3>
+                
+                <div class="question">
+                    <label>1. Are you in Jin's class?</label>
+                    <div class="options">
+                        <div class="option">
+                            <label>Yes, </label>
+                            <input type="text" id="u3-gram-a-1-yes" placeholder="Complete...">
+                        </div>
+                        <div class="option">
+                            <label>No, </label>
+                            <input type="text" id="u3-gram-a-1-no" placeholder="Complete...">
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. Is Priya from India?</label>
+                    <div class="options">
+                        <div class="option">
+                            <label>Yes, </label>
+                            <input type="text" id="u3-gram-a-2-yes" placeholder="Complete...">
+                        </div>
+                        <div class="option">
+                            <label>No, </label>
+                            <input type="text" id="u3-gram-a-2-no" placeholder="Complete...">
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. Are Joe and Tom on the soccer team?</label>
+                    <div class="options">
+                        <div class="option">
+                            <label>Yes, </label>
+                            <input type="text" id="u3-gram-a-3-yes" placeholder="Complete...">
+                        </div>
+                        <div class="option">
+                            <label>No, </label>
+                            <input type="text" id="u3-gram-a-3-no" placeholder="Complete...">
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. Am I your best friend?</label>
+                    <div class="options">
+                        <div class="option">
+                            <label>Yes, </label>
+                            <input type="text" id="u3-gram-a-4-yes" placeholder="Complete...">
+                        </div>
+                        <div class="option">
+                            <label>No, </label>
+                            <input type="text" id="u3-gram-a-4-no" placeholder="Complete...">
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>5. Are we cousins?</label>
+                    <div class="options">
+                        <div class="option">
+                            <label>Yes, </label>
+                            <input type="text" id="u3-gram-a-5-yes" placeholder="Complete...">
+                        </div>
+                        <div class="option">
+                            <label>No, </label>
+                            <input type="text" id="u3-gram-a-5-no" placeholder="Complete...">
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <h3>B. Look at the picture. Complete the questions and write Yes / No answers.</h3>
+                <div class="image-container">
+                    <img src="https://images.unsplash.com/photo-1517164850305-99a3e65bb47e?q=80&w=1470&auto=format&fit=crop" alt="Children playing in a park">
+                </div>
+                
+                <div class="question">
+                    <label>1. ________ this a basketball game?</label>
+                    <input type="text" id="u3-gram-b-1-q" placeholder="Complete the question...">
+                    <input type="text" id="u3-gram-b-1-a" placeholder="Write the answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. ________ they in a park?</label>
+                    <input type="text" id="u3-gram-b-2-q" placeholder="Complete the question...">
+                    <input type="text" id="u3-gram-b-2-a" placeholder="Write the answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. ________ the boy with the ball sad?</label>
+                    <input type="text" id="u3-gram-b-3-q" placeholder="Complete the question...">
+                    <input type="text" id="u3-gram-b-3-a" placeholder="Write the answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. ________ you on a soccer team?</label>
+                    <input type="text" id="u3-gram-b-4-q" placeholder="Complete the question...">
+                    <input type="text" id="u3-gram-b-4-a" placeholder="Write the answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="page-number">15</div>
+            
+            <div class="exercise">
+                <h3>Questions with Where and When</h3>
+                <h3>C. Read the questions. Circle C for Correct or W for Wrong. Write the wrong questions in the correct order.</h3>
+                
+                <div class="question">
+                    <label>1. Where live they do?</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u3-gram-c-1" id="u3-gram-c-1-c" value="C">
+                            <label for="u3-gram-c-1-c">C</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-gram-c-1" id="u3-gram-c-1-w" value="W">
+                            <label for="u3-gram-c-1-w">W</label>
+                        </div>
+                    </div>
+                    <input type="text" id="u3-gram-c-1-correct" placeholder="Write the correct question...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. When is that TV show on?</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u3-gram-c-2" id="u3-gram-c-2-c" value="C">
+                            <label for="u3-gram-c-2-c">C</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-gram-c-2" id="u3-gram-c-2-w" value="W">
+                            <label for="u3-gram-c-2-w">W</label>
+                        </div>
+                    </div>
+                    <input type="text" id="u3-gram-c-2-correct" placeholder="Write the correct question...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. Home is your where?</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u3-gram-c-3" id="u3-gram-c-3-c" value="C">
+                            <label for="u3-gram-c-3-c">C</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-gram-c-3" id="u3-gram-c-3-w" value="W">
+                            <label for="u3-gram-c-3-w">W</label>
+                        </div>
+                    </div>
+                    <input type="text" id="u3-gram-c-3-correct" placeholder="Write the correct question...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. The math test when is?</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u3-gram-c-4" id="u3-gram-c-4-c" value="C">
+                            <label for="u3-gram-c-4-c">C</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-gram-c-4" id="u3-gram-c-4-w" value="W">
+                            <label for="u3-gram-c-4-w">W</label>
+                        </div>
+                    </div>
+                    <input type="text" id="u3-gram-c-4-correct" placeholder="Write the correct question...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>5. Where are the new books?</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u3-gram-c-5" id="u3-gram-c-5-c" value="C">
+                            <label for="u3-gram-c-5-c">C</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-gram-c-5" id="u3-gram-c-5-w" value="W">
+                            <label for="u3-gram-c-5-w">W</label>
+                        </div>
+                    </div>
+                    <input type="text" id="u3-gram-c-5-correct" placeholder="Write the correct question...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>6. When are the games on TV?</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u3-gram-c-6" id="u3-gram-c-6-c" value="C">
+                            <label for="u3-gram-c-6-c">C</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-gram-c-6" id="u3-gram-c-6-w" value="W">
+                            <label for="u3-gram-c-6-w">W</label>
+                        </div>
+                    </div>
+                    <input type="text" id="u3-gram-c-6-correct" placeholder="Write the correct question...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>7. Where the school is?</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u3-gram-c-7" id="u3-gram-c-7-c" value="C">
+                            <label for="u3-gram-c-7-c">C</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-gram-c-7" id="u3-gram-c-7-w" value="W">
+                            <label for="u3-gram-c-7-w">W</label>
+                        </div>
+                    </div>
+                    <input type="text" id="u3-gram-c-7-correct" placeholder="Write the correct question...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>8. When is Mom's birthday?</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u3-gram-c-8" id="u3-gram-c-8-c" value="C">
+                            <label for="u3-gram-c-8-c">C</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-gram-c-8" id="u3-gram-c-8-w" value="W">
+                            <label for="u3-gram-c-8-w">W</label>
+                        </div>
+                    </div>
+                    <input type="text" id="u3-gram-c-8-correct" placeholder="Write the correct question...">
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <h3>Live + Preposition in</h3>
+                <h3>D. Read each sentence. Circle the correct answer.</h3>
+                
+                <div class="question">
+                    <label>1. My aunt and uncle ________ Thailand.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u3-gram-d-1" id="u3-gram-d-1-a" value="a">
+                            <label for="u3-gram-d-1-a">a. live in</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-gram-d-1" id="u3-gram-d-1-b" value="b">
+                            <label for="u3-gram-d-1-b">b. live at</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-gram-d-1" id="u3-gram-d-1-c" value="c">
+                            <label for="u3-gram-d-1-c">c. live on</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. My best friend, Anita, ________ our street.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u3-gram-d-2" id="u3-gram-d-2-a" value="a">
+                            <label for="u3-gram-d-2-a">a. lives in</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-gram-d-2" id="u3-gram-d-2-b" value="b">
+                            <label for="u3-gram-d-2-b">b. lives at</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-gram-d-2" id="u3-gram-d-2-c" value="c">
+                            <label for="u3-gram-d-2-c">c. lives on</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. The Lees ________ 96 Pine Street, Philadelphia.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u3-gram-d-3" id="u3-gram-d-3-a" value="a">
+                            <label for="u3-gram-d-3-a">a. live in</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-gram-d-3" id="u3-gram-d-3-b" value="b">
+                            <label for="u3-gram-d-3-b">b. live at</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-gram-d-3" id="u3-gram-d-3-c" value="c">
+                            <label for="u3-gram-d-3-c">c. live on</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. I ________ a farm.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u3-gram-d-4" id="u3-gram-d-4-a" value="a">
+                            <label for="u3-gram-d-4-a">a. live in</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-gram-d-4" id="u3-gram-d-4-b" value="b">
+                            <label for="u3-gram-d-4-b">b. live at</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-gram-d-4" id="u3-gram-d-4-c" value="c">
+                            <label for="u3-gram-d-4-c">c. live on</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>5. Chang ________ the big house on the corner.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u3-gram-d-5" id="u3-gram-d-5-a" value="a">
+                            <label for="u3-gram-d-5-a">a. lives in</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-gram-d-5" id="u3-gram-d-5-b" value="b">
+                            <label for="u3-gram-d-5-b">b. lives at</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-gram-d-5" id="u3-gram-d-5-c" value="c">
+                            <label for="u3-gram-d-5-c">c. lives on</label>
+                        </div>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="page-number">16</div>
+            
+            <!-- Conversation Section -->
+            <h2>Conversation</h2>
+            
+            <div class="exercise">
+                <h3>Speaking Strategy: Talk about likes / dislikes</h3>
+                <h3>A. Complete the conversation using these expressions.</h3>
+                <div class="word-box">
+                    like, don't like, am not interested in, love, enjoy
+                </div>
+                
+                <div class="conversation">
+                    <div class="conversation-line"><span class="speaker">Jae-Young:</span> Hi, Ahn-Na. How do you like the school so far?</div>
+                    <div class="conversation-line"><span class="speaker">Ahn-Na:</span> Hi, Jae-Young. I (1) <input type="text" id="u3-conv-a-1" style="width: 100px;"> it a lot. The students are friendly.</div>
+                    <div class="conversation-line"><span class="speaker">Jae-Young:</span> Do you like chess? We have a chess club in school.</div>
+                    <div class="conversation-line"><span class="speaker">Ahn-Na:</span> No, thanks. I (2) <input type="text" id="u3-conv-a-2" style="width: 100px;"> chess.</div>
+                    <div class="conversation-line"><span class="speaker">Jae-Young:</span> That's OK. What do you do in your free time?</div>
+                    <div class="conversation-line"><span class="speaker">Ahn-Na:</span> I (3) <input type="text" id="u3-conv-a-3" style="width: 100px;"> playing drums in the school band.</div>
+                    <div class="conversation-line"><span class="speaker">Jae-Young:</span> That's cool!</div>
+                    <div class="conversation-line"><span class="speaker">Ahn-Na:</span> Thanks. It's my favorite hobby. I really (4) <input type="text" id="u3-conv-a-4" style="width: 100px;"> it!</div>
+                    <div class="conversation-line"><span class="speaker">Jae-Young:</span> I like to listen to music, but I (5) <input type="text" id="u3-conv-a-5" style="width: 100px;"> playing an instrument.</div>
+                    <div class="conversation-line"><span class="speaker">Ahn-Na:</span> OK. Come and listen to us sometime!</div>
+                </div>
+                <div class="answer-feedback"></div>
+            </div>
+            
+            <div class="exercise">
+                <h3>B. Write a short conversation about things you like and things you don't like.</h3>
+                <div class="conversation">
+                    <div class="conversation-line"><span class="speaker">A:</span> Do you like <input type="text" id="u3-conv-b-1-q" style="width: 100px;">?</div>
+                    <div class="conversation-line"><span class="speaker">B:</span> <input type="text" id="u3-conv-b-1-a" style="width: 300px;"></div>
+                    <div class="conversation-line"><span class="speaker">A:</span> Do you like <input type="text" id="u3-conv-b-2-q" style="width: 100px;">?</div>
+                    <div class="conversation-line"><span class="speaker">B:</span> <input type="text" id="u3-conv-b-2-a" style="width: 300px;"></div>
+                    <div class="conversation-line"><span class="speaker">A:</span> Do you like <input type="text" id="u3-conv-b-3-q" style="width: 100px;">?</div>
+                    <div class="conversation-line"><span class="speaker">B:</span> <input type="text" id="u3-conv-b-3-a" style="width: 300px;"></div>
+                </div>
+                <div class="answer-feedback"></div>
+            </div>
+            
+            <div class="page-number">17</div>
+            
+            <!-- Reading Section -->
+            <h2>Reading</h2>
+            
+            <div class="exercise">
+                <h3>Before Reading</h3>
+                <h3>A. Look at the pictures and answer the questions.</h3>
+                <div class="image-container">
+                    <img src="https://images.unsplash.com/photo-1535016120720-40c646be5580?q=80&w=1470&auto=format&fit=crop" alt="Hobbies">
+                </div>
+                
+                <div class="question">
+                    <label>1. What is your favorite hobby?</label>
+                    <input type="text" id="u3-read-before-a-1" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. Why do you like your hobby?</label>
+                    <input type="text" id="u3-read-before-a-2" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <h3>B. Read the paragraphs. Underline specific information about Keisha and Trey's hobbies.</h3>
+                    <div class="reading-text">
+                        <h4>Fun Hobbies</h4>
+                        <p>I'm Keisha. My hobby is fashion. I love it! I make most of my clothes. That way, I get what I want. Sometimes I buy old clothes. Then I make something new and different. Bright colors are my favorites. I make dresses, shirts, and skirts. Some of my friends like my clothes, and I make things for them, too. I am interested in doing this. I like to do things for my friends.</p>
+                        <p>I'm Trey, and I have two hobbies. They go together. My first hobby is gardening. I have a big garden in my back yard. I grow many vegetables. It's not an easy hobby, but I like it! Can you guess my second hobby? I'm a cook. After I pick my vegetables, I cook them. I find some ideas from the Internet or from cookbooks. I also think of new ideas. I love it! My family likes my hobbies. They like to eat my food. In the future, I want to have a restaurant.</p>
+                    </div>
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="page-number">18</div>
+            
+            <div class="exercise">
+                <h3>After Reading</h3>
+                <h3>C. Read the sentences and circle T for True or F for False. Correct the false statements.</h3>
+                
+                <div class="question">
+                    <label>1. Keisha's hobby is fashion.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u3-read-after-c-1" id="u3-read-after-c-1-t" value="T">
+                            <label for="u3-read-after-c-1-t">T</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-read-after-c-1" id="u3-read-after-c-1-f" value="F">
+                            <label for="u3-read-after-c-1-f">F</label>
+                        </div>
+                    </div>
+                    <input type="text" id="u3-read-after-c-1-correction" placeholder="Correction (if false)...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. Keisha always buys new clothes.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u3-read-after-c-2" id="u3-read-after-c-2-t" value="T">
+                            <label for="u3-read-after-c-2-t">T</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-read-after-c-2" id="u3-read-after-c-2-f" value="F">
+                            <label for="u3-read-after-c-2-f">F</label>
+                        </div>
+                    </div>
+                    <input type="text" id="u3-read-after-c-2-correction" placeholder="Correction (if false)...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. Keisha's friends don't like her clothes.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u3-read-after-c-3" id="u3-read-after-c-3-t" value="T">
+                            <label for="u3-read-after-c-3-t">T</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-read-after-c-3" id="u3-read-after-c-3-f" value="F">
+                            <label for="u3-read-after-c-3-f">F</label>
+                        </div>
+                    </div>
+                    <input type="text" id="u3-read-after-c-3-correction" placeholder="Correction (if false)...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. Trey's hobby is fishing.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u3-read-after-c-4" id="u3-read-after-c-4-t" value="T">
+                            <label for="u3-read-after-c-4-t">T</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-read-after-c-4" id="u3-read-after-c-4-f" value="F">
+                            <label  name="u3-read-after-c-4" id="u3-read-after-c-4-f" value="F">
+                            <label for="u3-read-after-c-4-f">F</label>
+                        </div>
+                    </div>
+                    <input type="text" id="u3-read-after-c-4-correction" placeholder="Correction (if false)...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>5. Trey finds ideas from the Internet.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u3-read-after-c-5" id="u3-read-after-c-5-t" value="T">
+                            <label for="u3-read-after-c-5-t">T</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-read-after-c-5" id="u3-read-after-c-5-f" value="F">
+                            <label for="u3-read-after-c-5-f">F</label>
+                        </div>
+                    </div>
+                    <input type="text" id="u3-read-after-c-5-correction" placeholder="Correction (if false)...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>6. Trey's family likes his hobbies.</label>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="u3-read-after-c-6" id="u3-read-after-c-6-t" value="T">
+                            <label for="u3-read-after-c-6-t">T</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="u3-read-after-c-6" id="u3-read-after-c-6-f" value="F">
+                            <label for="u3-read-after-c-6-f">F</label>
+                        </div>
+                    </div>
+                    <input type="text" id="u3-read-after-c-6-correction" placeholder="Correction (if false)...">
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Writing Section -->
+            <h2>Writing</h2>
+            
+            <div class="exercise">
+                <h3>Writing Strategy: Answer questions</h3>
+                <h3>A. Read and answer each question on the questionnaire.</h3>
+                
+                <div class="question">
+                    <label>1. What is your name?</label>
+                    <input type="text" id="u3-write-a-1" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>2. What grade are you in?</label>
+                    <input type="text" id="u3-write-a-2" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>3. Where do you live?</label>
+                    <input type="text" id="u3-write-a-3" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>4. What is your favorite hobby?</label>
+                    <input type="text" id="u3-write-a-4" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>5. What sports do you play?</label>
+                    <input type="text" id="u3-write-a-5" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <label>6. Who are your best friends?</label>
+                    <input type="text" id="u3-write-a-6" placeholder="Write your answer...">
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+        
+        <div class="unit-navigation" style="margin-top: 30px;">
+            <button class="nav-button" onclick="showUnit('unit1')">Unit 1: Meeting People</button>
+            <button class="nav-button" onclick="showUnit('unit2')">Unit 2: My Things</button>
+            <button class="nav-button" onclick="showUnit('unit3')">Unit 3: All About Me</button>
+        </div>
+        </div>
+        
+        <!-- Feedback Section -->
+        <div id="feedback" class="feedback"></div>
+        
+        <script>
+            // Define correct answers for each exercise
+            const correctAnswers = {
+                // Unit 1 Vocabulary
+                "u1-a-1": "city",
+                "u1-a-2": "grade",
+                "u1-a-3": "live",
+                "u1-a-4": "name",
+                "u1-a-5": "school",
+                "u1-a-6": "spell",
+                
+                // Unit 1 Vocabulary B
+                "u1-b-1": "country",
+                "u1-b-2": "city",
+                "u1-b-3": "meet",
+                "u1-b-4": "number",
+                "u1-b-5": "spell",
+                "u1-b-6": "grade",
+                
+                // Unit 1 Vocabulary C
+                "u1-c-1": "grade",
+                "u1-c-2": "school",
+                "u1-c-3": "name",
+                "u1-c-4": "city",
+                "u1-c-5": "live",
+                "u1-c-6": "spell",
+                
+                // Unit 1 Grammar A
+                "u1-gram-a-1": "am",
+                "u1-gram-a-2": "are",
+                "u1-gram-a-3": "is",
+                "u1-gram-a-4": "are",
+                "u1-gram-a-5": "am",
+                "u1-gram-a-6": "is",
+                
+                // Unit 1 Grammar B
+                "u1-gram-b-1": "c",
+                "u1-gram-b-2": "a",
+                
+                // Unit 1 Grammar C
+                "u1-gram-c-1": "doesn't",
+                "u1-gram-c-2": "travel",
+                "u1-gram-c-3": "plays",
+                "u1-gram-c-4": "ride",
+                "u1-gram-c-5": "live",
+                "u1-gram-c-6": "Does",
+                "u1-gram-c-7": "don't",
+                "u1-gram-c-8": "meet",
+                
+                // Unit 1 Conversation A
+                "u1-conv-a-1": "Hello",
+                "u1-conv-a-2": "Hi",
+                "u1-conv-a-3": "Goodbye",
+                "u1-conv-a-4": "Bye",
+                "u1-conv-a-5": "Hi",
+                "u1-conv-a-6": "Hello",
+                "u1-conv-a-7": "Goodbye",
+                "u1-conv-a-8": "See you later",
+                
+                // Unit 1 Reading After C
+                "u1-read-after-c-1": "F",
+                "u1-read-after-c-2": "F",
+                "u1-read-after-c-3": "T",
+                "u1-read-after-c-4": "F",
+                "u1-read-after-c-5": "T",
+                "u1-read-after-c-6": "F",
+                
+                // Unit 1 Writing A
+                "u1-write-a": "Hello! My name is Ming. I live in Beijing, China. Every year, I visit my friend Cheng in New York. My plane leaves on Thursday.",
+                
+                // Unit 2 Vocabulary A
+                "u2-a-1": "smartphone",
+                "u2-a-2": "laptop",
+                "u2-a-3": "necklace",
+                "u2-a-4": "tablet",
+                
+                // Unit 2 Vocabulary B
+                "u2-b-1": "bike",
+                "u2-b-2": "Swipe",
+                "u2-b-3": "friend",
+                "u2-b-4": "favorite",
+                
+                // Unit 2 Vocabulary C
+                "u2-c-1": "game",
+                "u2-c-2": "swipe",
+                "u2-c-3": "necklace",
+                "u2-c-4": "present",
+                
+                // Unit 2 Grammar A
+                "u2-gram-a-1": "S",
+                "u2-gram-a-2": "P",
+                "u2-gram-a-3": "S",
+                "u2-gram-a-4": "S",
+                "u2-gram-a-5": "P",
+                "u2-gram-a-6": "P",
+                
+                // Unit 2 Grammar B
+                "u2-gram-b-1": "this",
+                "u2-gram-b-2": "That",
+                "u2-gram-b-3": "These",
+                "u2-gram-b-4": "Those",
+                "u2-gram-b-5": "This",
+                "u2-gram-b-6": "That",
+                
+                // Unit 2 Grammar C
+                "u2-gram-c-1": "this",
+                "u2-gram-c-2": "these",
+                "u2-gram-c-3": "this",
+                "u2-gram-c-4": "that",
+                "u2-gram-c-5": "These",
+                "u2-gram-c-6": "that",
+                
+                // Unit 2 Grammar D
+                "u2-gram-d-1": "a",
+                "u2-gram-d-2": "a",
+                "u2-gram-d-3": "a",
+                "u2-gram-d-4": "an",
+                "u2-gram-d-5": "a",
+                "u2-gram-d-6": "an",
+                
+                // Unit 2 Grammar E
+                "u2-gram-e-1": "a",
+                "u2-gram-e-2": "an",
+                "u2-gram-e-3": "a",
+                "u2-gram-e-4": "an",
+                "u2-gram-e-5": "a",
+                "u2-gram-e-6": "a",
+                
+                // Unit 2 Conversation A
+                "u2-conv-a-1": "Click",
+                "u2-conv-a-2": "I see",
+                "u2-conv-a-3": "Click",
+                "u2-conv-a-4": "Now what",
+                "u2-conv-a-5": "swipe",
+                "u2-conv-a-6": "Sorry",
+                
+                // Unit 2 Reading After C
+                "u2-read-after-c-1": "her grandmother",
+                "u2-read-after-c-2": "because it's Louisa's favorite color",
+                "u2-read-after-c-3": "white",
+                "u2-read-after-c-4": "her grandmother",
+                "u2-read-after-c-5": "they like it and want special quilts too",
+                
+                // Unit 3 Vocabulary A
+                "u3-a-1": "fashion",
+                "u3-a-2": "hobby",
+                "u3-a-3": "music",
+                "u3-a-4": "sport",
+                "u3-a-5": "play",
+                "u3-a-6": "free time",
+                
+                // Unit 3 Vocabulary B
+                "u3-b-1": "3",
+                "u3-b-2": "6",
+                "u3-b-3": "1",
+                "u3-b-4": "4",
+                "u3-b-5": "5",
+                "u3-b-6": "2",
+                
+                // Unit 3 Vocabulary C
+                "u3-c-1": "hobby",
+                "u3-c-2": "music",
+                "u3-c-3": "sport",
+                "u3-c-4": "play",
+                "u3-c-5": "fashion",
+                "u3-c-6": "free time",
+                
+                // Unit 3 Grammar A
+                "u3-gram-a-1-yes": "I am",
+                "u3-gram-a-1-no": "I'm not",
+                "u3-gram-a-2-yes": "she is",
+                "u3-gram-a-2-no": "she isn't",
+                "u3-gram-a-3-yes": "they are",
+                "u3-gram-a-3-no": "they aren't",
+                "u3-gram-a-4-yes": "you are",
+                "u3-gram-a-4-no": "you aren't",
+                "u3-gram-a-5-yes": "we are",
+                "u3-gram-a-5-no": "we aren't",
+                
+                // Unit 3 Grammar B
+                "u3-gram-b-1-q": "Is",
+                "u3-gram-b-1-a": "No, it isn't",
+                "u3-gram-b-2-q": "Are",
+                "u3-gram-b-2-a": "Yes, they are",
+                "u3-gram-b-3-q": "Is",
+                "u3-gram-b-3-a": "No, he isn't",
+                "u3-gram-b-4-q": "Are",
+                
+                // Unit 3 Grammar C
+                "u3-gram-c-1": "W",
+                "u3-gram-c-1-correct": "Where do they live?",
+                "u3-gram-c-2": "C",
+                "u3-gram-c-3": "W",
+                "u3-gram-c-3-correct": "Where is your home?",
+                "u3-gram-c-4": "W",
+                "u3-gram-c-4-correct": "When is the math test?",
+                "u3-gram-c-5": "C",
+                "u3-gram-c-6": "C",
+                "u3-gram-c-7": "W",
+                "u3-gram-c-7-correct": "Where is the school?",
+                "u3-gram-c-8": "C",
+                
+                // Unit 3 Grammar D
+                "u3-gram-d-1": "a",
+                "u3-gram-d-2": "c",
+                "u3-gram-d-3": "b",
+                "u3-gram-d-4": "c",
+                "u3-gram-d-5": "b",
+                
+                // Unit 3 Conversation A
+                "u3-conv-a-1": "like",
+                "u3-conv-a-2": "don't like",
+                "u3-conv-a-3": "enjoy",
+                "u3-conv-a-4": "love",
+                "u3-conv-a-5": "am not interested in",
+                
+                // Unit 3 Reading After C
+                "u3-read-after-c-1": "T",
+                "u3-read-after-c-2": "F",
+                "u3-read-after-c-2-correction": "Keisha makes most of her clothes and sometimes buys old clothes.",
+                "u3-read-after-c-3": "F",
+                "u3-read-after-c-3-correction": "Some of Keisha's friends like her clothes.",
+                "u3-read-after-c-4": "F",
+                "u3-read-after-c-4-correction": "Trey's hobbies are gardening and cooking.",
+                "u3-read-after-c-5": "T",
+                "u3-read-after-c-6": "T"
+            };
+            
+            // Function to show a specific unit and hide others
+            function showUnit(unitId) {
+                const units = document.querySelectorAll('.unit');
+                units.forEach(unit => {
+                    unit.style.display = 'none';
+                });
+                document.getElementById(unitId).style.display = 'block';
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+            }
+            
+            // Function to check answers
+            function checkAnswers() {
+                let score = 0;
+                let totalQuestions = 0;
+                
+                // Check text inputs
+                document.querySelectorAll('input[type="text"]').forEach(input => {
+                    const id = input.id;
+                    if (correctAnswers[id]) {
+                        totalQuestions++;
+                        const userAnswer = input.value.trim().toLowerCase();
+                        const correctAnswer = correctAnswers[id].toLowerCase();
+                        
+                        if (userAnswer === correctAnswer) {
+                            input.classList.add('correct');
+                            input.classList.remove('incorrect');
+                            input.nextElementSibling.innerHTML = '<span class="correct-answer">Correct!</span>';
+                            input.nextElementSibling.style.display = 'block';
+                            score++;
+                        } else {
+                            input.classList.add('incorrect');
+                            input.classList.remove('correct');
+                            input.nextElementSibling.innerHTML = '<span class="wrong-answer">Incorrect.</span>';
+                            input.nextElementSibling.style.display = 'block';
+                        }
+                    }
+                });
+                
+                // Check radio buttons
+                document.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
+                    const name = radio.name;
+                    const id = radio.id;
+                    const value = radio.value;
+                    
+                    if (correctAnswers[name]) {
+                        totalQuestions++;
+                        if (value === correctAnswers[name]) {
+                            radio.parentElement.parentElement.parentElement.classList.add('correct');
+                            radio.parentElement.parentElement.parentElement.classList.remove('incorrect');
+                            radio.parentElement.parentElement.nextElementSibling.innerHTML = '<span class="correct-answer">Correct!</span>';
+                            radio.parentElement.parentElement.nextElementSibling.style.display = 'block';
+                            score++;
+                        } else {
+                            radio.parentElement.parentElement.parentElement.classList.add('incorrect');
+                            radio.parentElement.parentElement.parentElement.classList.remove('correct');
+                            radio.parentElement.parentElement.nextElementSibling.innerHTML = '<span class="wrong-answer">Incorrect.</span>';
+                            radio.parentElement.parentElement.nextElementSibling.style.display = 'block';
+                        }
+                    }
+                });
+                
+                // Check select elements
+                document.querySelectorAll('select').forEach(select => {
+                    const id = select.id;
+                    if (correctAnswers[id]) {
+                        totalQuestions++;
+                        const userAnswer = select.value;
+                        const correctAnswer = correctAnswers[id];
+                        
+                        if (userAnswer === correctAnswer) {
+                            select.classList.add('correct');
+                            select.classList.remove('incorrect');
+                            select.nextElementSibling.innerHTML = '<span class="correct-answer">Correct!</span>';
+                            select.nextElementSibling.style.display = 'block';
+                            score++;
+                        } else {
+                            select.classList.add('incorrect');
+                            select.classList.remove('correct');
+                            select.nextElementSibling.innerHTML = '<span class="wrong-answer">Incorrect.</span>';
+                            select.nextElementSibling.style.display = 'block';
+                        }
+                    }
+                });
+                
+                // Check textareas
+                document.querySelectorAll('textarea').forEach(textarea => {
+                    const id = textarea.id;
+                    if (correctAnswers[id]) {
+                        totalQuestions++;
+                        const userAnswer = textarea.value.trim().toLowerCase();
+                        const correctAnswer = correctAnswers[id].toLowerCase();
+                        
+                        if (userAnswer === correctAnswer) {
+                            textarea.classList.add('correct');
+                            textarea.classList.remove('incorrect');
+                            textarea.nextElementSibling.innerHTML = '<span class="correct-answer">Correct!</span>';
+                            textarea.nextElementSibling.style.display = 'block';
+                            score++;
+                        } else {
+                            textarea.classList.add('incorrect');
+                            textarea.classList.remove('correct');
+                            textarea.nextElementSibling.innerHTML = '<span class="wrong-answer">Incorrect.</span>';
+                            textarea.nextElementSibling.style.display = 'block';
+                        }
+                    }
+                });
+                
+                // Display overall feedback
+                const feedback = document.getElementById('feedback');
+                const percentage = Math.round((score / totalQuestions) * 100);
+                
+                let message = '';
+                if (percentage >= 90) {
+                    message = 'Excellent! You have a great understanding of the material.';
+                    feedback.className = 'feedback success';
+                } else if (percentage >= 70) {
+                    message = 'Good job! You have a solid understanding of the material.';
+                    feedback.className = 'feedback success';
+                } else if (percentage >= 50) {
+                    message = 'You\'re making progress. Keep practicing to improve your skills.';
+                    feedback.className = 'feedback success';
+                } else {
+                    message = 'You need more practice. Review the material and try again.';
+                    feedback.className = 'feedback error';
+                }
+                
+                feedback.innerHTML = `<h3>Your Score: ${score}/${totalQuestions} (${percentage}%)</h3><p>${message}</p>`;
+                feedback.style.display = 'block';
+                
+                // Scroll to feedback
+                feedback.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // Function to show all correct answers
+            function showAnswers() {
+                // Show answers for text inputs
+                document.querySelectorAll('input[type="text"]').forEach(input => {
+                    const id = input.id;
+                    if (correctAnswers[id]) {
+                        input.value = correctAnswers[id];
+                        input.classList.add('correct');
+                        input.classList.remove('incorrect');
+                        input.nextElementSibling.innerHTML = '<span class="correct-answer">Answer: ' + correctAnswers[id] + '</span>';
+                        input.nextElementSibling.style.display = 'block';
+                    }
+                });
+                
+                // Show answers for radio buttons
+                document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                    const name = radio.name;
+                    const value = radio.value;
+                    
+                    if (correctAnswers[name] && value === correctAnswers[name]) {
+                        radio.checked = true;
+                        radio.parentElement.parentElement.parentElement.classList.add('correct');
+                        radio.parentElement.parentElement.parentElement.classList.remove('incorrect');
+                        radio.parentElement.parentElement.nextElementSibling.innerHTML = '<span class="correct-answer">Answer: ' + value + '</span>';
+                        radio.parentElement.parentElement.nextElementSibling.style.display = 'block';
+                    }
+                });
+                
+                // Show answers for select elements
+                document.querySelectorAll('select').forEach(select => {
+                    const id = select.id;
+                    if (correctAnswers[id]) {
+                        select.value = correctAnswers[id];
+                        select.classList.add('correct');
+                        select.classList.remove('incorrect');
+                        select.nextElementSibling.innerHTML = '<span class="correct-answer">Answer: Option ' + correctAnswers[id] + '</span>';
+                        select.nextElementSibling.style.display = 'block';
+                    }
+                });
+                
+                // Show answers for textareas
+                document.querySelectorAll('textarea').forEach(textarea => {
+                    const id = textarea.id;
+                    if (correctAnswers[id]) {
+                        textarea.value = correctAnswers[id];
+                        textarea.classList.add('correct');
+                        textarea.classList.remove('incorrect');
+                        textarea.nextElementSibling.innerHTML = '<span class="correct-answer">Answer provided</span>';
+                        textarea.nextElementSibling.style.display = 'block';
+                    }
+                });
+                
+                // Display feedback
+                const feedback = document.getElementById('feedback');
+                feedback.innerHTML = "All correct answers have been displayed. Use this as a learning tool to understand the material better.";
+                feedback.className = "feedback success";
+                feedback.style.display = "block";
+                
+                // Scroll to feedback
+                feedback.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // Initialize with Unit 1 visible
+            showUnit('unit1');
+        </script>
+    </div>
+</body>
+</html>
+
