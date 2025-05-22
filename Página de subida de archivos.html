@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material de Estudio - Grado Once</title>
+    <link rel="icon" href="img/mr-jes-logo.png" type="image/png">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <style>
+        :root {
+            --primary-color: #4a6ea9;
+            --primary-dark: #3d5a8a;
+            --error-color: #dc3545;
+            --success-color: #4caf50;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        h1, h2 {
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+        }
+
+        h2 {
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+            font-size: 1.8rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .tab {
+            padding: 14px 25px;
+            background-color: #e9ecef;
+            color: #495057;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            flex: 1;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .tab:hover {
+            background-color: #dee2e6;
+        }
+
+        .tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Upload Section */
+        .upload-container {
+            border: 2px dashed var(--primary-color);
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .upload-container.dragover {
+            background-color: #e1f5fe;
+            border-color: #2196f3;
+            transform: scale(1.02);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .upload-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .progress-container {
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .upload-list {
+            margin-top: 20px;
+        }
+
+        .upload-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #ddd;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .upload-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .file-name {
+            flex-grow: 1;
+            font-weight: 500;
+            word-break: break-all;
+        }
+
+        .file-size {
+            margin: 0 15px;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .file-status {
+            margin-left: 15px;
+            font-weight: 500;
+            min-width: 100px;
+            text-align: right;
+        }
+
+        .success {
+            color: var(--success-color);
+        }
+
+        .error {
+            color: var(--error-color);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        /* View Files Section */
+        .search-container {
+            margin-bottom: 30px;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .search-input-container {
+            position: relative;
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .search-input {
+            padding: 12px 12px 12px 40px;
+            width: 100%;
+            border: 2px solid var(--primary-color);
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+        }
+
+        .search-input:focus {
+            border-color: #2196f3;
+            box-shadow: 0 0 5px rgba(33, 150, 243, 0.3);
+        }
+
+        .search-btn, .clear-btn {
+            padding: 12px 25px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .search-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .clear-btn {
+            background-color: #6c757d;
+        }
+
+        .clear-btn:hover {
+            background-color: #5a6268;
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .filter-btn {
+            padding: 8px 15px;
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background-color: #d6d8db;
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .files-section {
+            margin-bottom: 40px;
+            animation: fadeIn 0.5s;
+        }
+
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .file-card {
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .file-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .file-preview {
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .file-preview.image {
+            background-color: #f8f9fa;
+        }
+
+        .file-preview.pdf {
+            background-color: #ffebee;
+        }
+
+        .file-preview.video {
+            background-color: #e8f5e9;
+        }
+
+        .file-preview.audio {
+            background-color: #e3f2fd;
+        }
+
+        .file-preview.document {
+            background-color: #e8eaf6;
+        }
+
+        .file-preview.other {
+            background-color: #f3e5f5;
+        }
+
+        .file-type-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .file-info {
+            padding: 15px;
+        }
+
+        .file-name {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .file-meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .download-btn {
+            background-color: var(--primary-color);
+            color: white;
+            flex-grow: 1;
+            text-decoration: none;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .download-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .delete-btn {
+            background-color: var(--error-color);
+            color: white;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        .no-files {
+            text-align: center;
+            padding: 40px;
+            background-color: white;
+            border-radius: 10px;
+            margin-top: 20px;
+            color: #666;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--primary-color);
+        }
+
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: var(--primary-color);
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .video-thumbnail {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-thumbnail::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            border-top: 20px solid transparent;
+            border-left: 30px solid rgba(0, 0, 0, 0.7);
+            border-bottom: 20px solid transparent;
+        }
+
+        .audio-thumbnail {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .refresh-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .refresh-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Herramientas de administración */
+        .admin-tools {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .admin-tools h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .admin-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .admin-tool-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .admin-tool-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .admin-tool-card p {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .admin-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .admin-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .admin-btn.danger {
+            background-color: var(--error-color);
+        }
+
+        .admin-btn.danger:hover {
+            background-color: #c82333;
+        }
+
+        .file-input-admin {
+            display: none;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-title {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .search-container {
+                flex-direction: column;
+            }
+
+            .search-input-container {
+                max-width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .search-btn, .clear-btn {
+                width: 100%;
+            }
+
+            .files-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .upload-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .file-size, .file-status {
+                margin: 5px 0;
+                text-align: center;
+            }
+
+            .file-status {
+                min-width: auto;
+            }
+
+            .admin-tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                border-radius: 0;
+            }
+
+            .tab:first-child {
+                border-radius: 8px 8px 0 0;
+            }
+
+            .tab:last-child {
+                border-radius: 0 0 8px 8px;
+            }
+
+            .files-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .upload-container {
+                padding: 20px;
+            }
+        }
+
+        /* Icons */
+        .icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            stroke-width: 0;
+            stroke: currentColor;
+            fill: currentColor;
+            vertical-align: middle;
+        }
+
+        .icon-sm {
+            width: 16px;
+            height: 16px;
+        }
+
+        .icon-lg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .icon-xl {
+            width: 48px;
+            height: 48px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Material de Estudio - Grado Once</h1>
+
+    <div class="tabs">
+        <button class="tab active" onclick="openTab('viewFiles')">Ver Archivos</button>
+        <button class="tab" onclick="openTab('uploadFiles')">Subir Archivos</button>
+        <button class="tab" onclick="openTab('adminTools')">Herramientas</button>
+    </div>
+
+    <!-- Sección para ver archivos -->
+    <div id="viewFiles" class="tab-content active">
+        <div class="search-container">
+            <div class="search-input-container">
+                <span class="search-icon">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                </span>
+                <input type="text" id="searchInput" class="search-input" placeholder="Buscar archivos...">
+            </div>
+            <button class="search-btn" onclick="searchFiles()">
+                Buscar
+            </button>
+            <button class="clear-btn" onclick="clearSearch()">
+                Limpiar
+            </button>
+        </div>
+
+        <div class="filter-container" id="filterContainer">
+            <button class="filter-btn active" data-type="all">Todos</button>
+            <button class="filter-btn" data-type="image">Imágenes</button>
+            <button class="filter-btn" data-type="pdf">PDF</button>
+            <button class="filter-btn" data-type="video">Videos</button>
+            <button class="filter-btn" data-type="audio">Audio</button>
+            <button class="filter-btn" data-type="document">Documentos</button>
+            <button class="filter-btn" data-type="other">Otros</button>
+        </div>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Cargando archivos...</p>
+        </div>
+        
+        <div id="filesSections">
+            <!-- Las secciones de archivos se generarán dinámicamente aquí -->
+        </div>
+        
+        <div id="noFiles" class="no-files" style="display: none;">
+            <svg class="icon icon-xl" viewBox="0 0 24 24" style="margin-bottom: 15px; color: #aaa;">
+                <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/>
+            </svg>
+            <p>No se encontraron archivos.</p>
+        </div>
+        
+        <button class="refresh-btn" onclick="loadFiles()">
+            <svg class="icon" viewBox="0 0 24 24">
+                <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+            </svg>
+            Actualizar Archivos
+        </button>
+    </div>
+
+    <!-- Sección para subir archivos -->
+    <div id="uploadFiles" class="tab-content">
+        <div class="upload-container" id="dropZone">
+            <div class="upload-icon">
+                <svg class="icon icon-xl" viewBox="0 0 24 24">
+                    <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
+                </svg>
+            </div>
+            <h3>Arrastra archivos aquí o haz clic para seleccionar</h3>
+            <input type="file" id="fileInput" class="file-input" multiple>
+            <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                Seleccionar Archivos
+            </button>
+        </div>
+
+        <div class="upload-list" id="uploadList"></div>
+    </div>
+
+    <!-- Sección de herramientas administrativas -->
+    <div id="adminTools" class="tab-content">
+        <div class="admin-tools">
+            <h3>Herramientas de Administración</h3>
+            <div class="admin-tools-grid">
+                <div class="admin-tool-card">
+                    <h4>Eliminar archivo específico</h4>
+                    <p>Elimina un archivo problemático usando su nombre exacto</p>
+                    <button class="admin-btn" onclick="showDeleteSpecificFileModal()">Eliminar archivo</button>
+                </div>
+                <div class="admin-tool-card">
+                    <h4>Eliminar "BALD KURAPIKAAA ;33.jpeg"</h4>
+                    <p>Elimina directamente este archivo problemático</p>
+                    <button class="admin-btn danger" onclick="deleteSpecificFile('BALD KURAPIKAAA ;33.jpeg')">Eliminar archivo</button>
+                </div>
+                <div class="admin-tool-card">
+                    <h4>Listar todos los archivos</h4>
+                    <p>Muestra una lista completa de archivos en Storage</p>
+                    <button class="admin-btn" onclick="listAllStorageFiles()">Listar archivos</button>
+                </div>
+                <div class="admin-tool-card">
+                    <h4>Sincronizar Base de Datos</h4>
+                    <p>Sincroniza la base de datos con los archivos en Storage</p>
+                    <button class="admin-btn" onclick="syncDatabaseWithStorage()">Sincronizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para eliminar archivo específico -->
+    <div id="deleteFileModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('deleteFileModal')">&times;</button>
+            <h3 class="modal-title">Eliminar archivo específico</h3>
+            <div class="modal-body">
+                <p>Ingrese el nombre exacto del archivo que desea eliminar:</p>
+                <input type="text" id="specificFileName" class="search-input" style="margin-top: 10px;" placeholder="Nombre del archivo">
+            </div>
+            <div class="modal-footer">
+                <button class="clear-btn" onclick="closeModal('deleteFileModal')">Cancelar</button>
+                <button class="admin-btn danger" onclick="deleteSpecificFileFromModal()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para mostrar lista de archivos -->
+    <div id="fileListModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('fileListModal')">&times;</button>
+            <h3 class="modal-title">Lista de archivos en Storage</h3>
+            <div class="modal-body" id="fileListContainer">
+                <div class="spinner"></div>
+                <p>Cargando lista de archivos...</p>
+            </div>
+            <div class="modal-footer">
+                <button class="admin-btn" onclick="closeModal('fileListModal')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCrXGgSiRHjTGg8Ve3h7PhkM0hcWlORhcw",
+            authDomain: "ingles-trabajo-colegio.firebaseapp.com",
+            databaseURL: "https://ingles-trabajo-colegio-default-rtdb.firebaseio.com",
+            projectId: "ingles-trabajo-colegio",
+            storageBucket: "ingles-trabajo-colegio.firebasestorage.app",
+            messagingSenderId: "801926533630",
+            appId: "1:801926533630:web:2fde3d43a404da7e2730af"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const storage = firebase.storage();
+        const database = firebase.database();
+
+        // Definir carpetas para material de estudio
+        const STORAGE_FOLDER = 'material-estudio';
+        const DATABASE_REF = 'material-estudio';
+
+        // Referencias DOM para la sección de subida
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const uploadList = document.getElementById('uploadList');
+
+        // Referencias DOM para la sección de visualización
+        const filesSections = document.getElementById('filesSections');
+        const loading = document.getElementById('loading');
+        const noFiles = document.getElementById('noFiles');
+        const searchInput = document.getElementById('searchInput');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const filterContainer = document.getElementById('filterContainer');
+
+        // Array para almacenar todos los archivos
+        let allFiles = [];
+        let currentFilter = 'all';
+
+        // Función para cambiar entre pestañas
+        function openTab(tabName) {
+            // Ocultar todas las pestañas
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+            
+            // Desactivar todos los botones de pestaña
+            const tabs = document.getElementsByClassName('tab');
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            
+            // Mostrar la pestaña seleccionada
+            document.getElementById(tabName).classList.add('active');
+            
+            // Activar el botón de la pestaña seleccionada
+            event.currentTarget.classList.add('active');
+            
+            // Si se selecciona la pestaña de ver archivos, cargar los archivos
+            if (tabName === 'viewFiles') {
+                loadFiles();
+            }
+        }
+
+        // Cargar archivos al iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFiles();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            // Configurar eventos de filtro
+            filterContainer.addEventListener('click', function(e) {
+                if (e.target.classList.contains('filter-btn')) {
+                    // Quitar clase activa de todos los botones
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Añadir clase activa al botón clickeado
+                    e.target.classList.add('active');
+                    // Aplicar filtro
+                    currentFilter = e.target.getAttribute('data-type');
+                    filterFiles();
+                }
+            });
+
+            // Eventos de arrastrar y soltar para la subida de archivos
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('dragover');
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+                handleFiles(e.dataTransfer.files);
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                handleFiles(e.target.files);
+            });
+
+            // Evento para buscar al presionar Enter
+            searchInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    searchFiles();
+                }
+            });
+        }
+
+        // Funciones para la sección de visualización de archivos
+        function loadFiles() {
+            loading.style.display = 'block';
+            filesSections.innerHTML = '';
+            noFiles.style.display = 'none';
+
+            database.ref(DATABASE_REF).on('value', (snapshot) => {
+                loading.style.display = 'none';
+                
+                if (snapshot.exists()) {
+                    allFiles = [];
+                    snapshot.forEach((child) => {
+                        allFiles.push({
+                            id: child.key,
+                            ...child.val()
+                        });
+                    });
+                    
+                    // Clasificar archivos por tipo
+                    categorizeAndDisplayFiles(allFiles);
+                } else {
+                    noFiles.style.display = 'block';
+                }
+            });
+        }
+
+        function categorizeAndDisplayFiles(files) {
+            if (files.length === 0) {
+                noFiles.style.display = 'block';
+                return;
+            }
+
+            noFiles.style.display = 'none';
+            filesSections.innerHTML = '';
+            
+            // Categorías de archivos
+            const categories = {
+                image: { title: 'Imágenes', files: [] },
+                pdf: { title: 'Documentos PDF', files: [] },
+                video: { title: 'Videos', files: [] },
+                audio: { title: 'Archivos de Audio', files: [] },
+                document: { title: 'Documentos', files: [] },
+                other: { title: 'Otros Archivos', files: [] }
+            };
+            
+            // Clasificar archivos por tipo
+            files.forEach(file => {
+                const fileType = getFileType(file.type);
+                categories[fileType].files.push(file);
+            });
+            
+            // Crear secciones para cada categoría que tenga archivos
+            Object.keys(categories).forEach(category => {
+                if (categories[category].files.length > 0) {
+                    createCategorySection(category, categories[category].title, categories[category].files);
+                }
+            });
+        }
+
+        function createCategorySection(category, title, files) {
+            const section = document.createElement('div');
+            section.className = 'files-section';
+            section.setAttribute('data-category', category);
+            
+            const heading = document.createElement('h2');
+            heading.textContent = title;
+            section.appendChild(heading);
+            
+            const grid = document.createElement('div');
+            grid.className = 'files-grid';
+            
+            files.forEach(file => {
+                const fileCard = createFileCard(file);
+                grid.appendChild(fileCard);
+            });
+            
+            section.appendChild(grid);
+            filesSections.appendChild(section);
+        }
+
+        function createFileCard(file) {
+            const card = document.createElement('div');
+            card.className = 'file-card';
+            
+            const fileType = getFileType(file.type);
+            
+            const preview = document.createElement('div');
+            preview.className = `file-preview ${fileType}`;
+            
+            // Crear la vista previa según el tipo de archivo
+            if (fileType === 'image') {
+                // Usar la URL directamente como fondo para evitar problemas de carga
+                preview.style.backgroundImage = `url('${file.downloadURL}')`;
+                preview.style.backgroundSize = 'contain';
+                preview.style.backgroundPosition = 'center';
+                preview.style.backgroundRepeat = 'no-repeat';
+                
+                // Icono de tipo de archivo
+                const typeIcon = document.createElement('div');
+                typeIcon.className = 'file-type-icon';
+                typeIcon.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4a6ea9" d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>';
+                preview.appendChild(typeIcon);
+            } else if (fileType === 'pdf') {
+                preview.innerHTML = '<svg width="60" height="60" viewBox="0 0 24 24"><path fill="#dc3545" d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5V11H19v2h-1.5V7h3v1.5zM9 9.5h1v-1H9v1zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm10 5.5h1v-3h-1v3z"/></svg>';
+                
+                // Icono de tipo de archivo
+                const typeIcon = document.createElement('div');
+                typeIcon.className = 'file-type-icon';
+                typeIcon.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24"><path fill="#dc3545" d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>';
+                preview.appendChild(typeIcon);
+            } else if (fileType === 'video') {
+                const videoThumb = document.createElement('div');
+                videoThumb.className = 'video-thumbnail';
+                videoThumb.style.backgroundColor = '#e8f5e9';
+                preview.appendChild(videoThumb);
+                
+                // Icono de tipo de archivo
+                const typeIcon = document.createElement('div');
+                typeIcon.className = 'file-type-icon';
+                typeIcon.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4CAF50" d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>';
+                preview.appendChild(typeIcon);
+            } else if (fileType === 'audio') {
+                const audioThumb = document.createElement('div');
+                audioThumb.className = 'audio-thumbnail';
+                audioThumb.innerHTML = '<svg width="60" height="60" viewBox="0 0 24 24"><path fill="#2196F3" d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg><span>Archivo de Audio</span>';
+                preview.appendChild(audioThumb);
+                
+                // Icono de tipo de archivo
+                const typeIcon = document.createElement('div');
+                typeIcon.className = 'file-type-icon';
+                typeIcon.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24"><path fill="#2196F3" d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>';
+                preview.appendChild(typeIcon);
+            } else if (fileType === 'document') {
+                preview.innerHTML = '<svg width="60" height="60" viewBox="0 0 24 24"><path fill="#3F51B5" d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>';
+                
+                // Icono de tipo de archivo
+                const typeIcon = document.createElement('div');
+                typeIcon.className = 'file-type-icon';
+                typeIcon.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24"><path fill="#3F51B5" d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6z"/></svg>';
+                preview.appendChild(typeIcon);
+            } else {
+                preview.innerHTML = '<svg width="60" height="60" viewBox="0 0 24 24"><path fill="#9C27B0" d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6H6zm7 7V3.5L18.5 9H13z"/></svg>';
+                
+                // Icono de tipo de archivo
+                const typeIcon = document.createElement('div');
+                typeIcon.className = 'file-type-icon';
+                typeIcon.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24"><path fill="#9C27B0" d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6H6z"/></svg>';
+                preview.appendChild(typeIcon);
+            }
+
+            const uploadDate = new Date(file.uploadDate).toLocaleString();
+
+            const fileInfo = document.createElement('div');
+            fileInfo.className = 'file-info';
+            fileInfo.innerHTML = `
+                <div class="file-name">${file.name}</div>
+                <div class="file-meta">
+                    Tipo: ${getFileTypeLabel(fileType)}<br>
+                    Tamaño: ${formatFileSize(file.size)}<br>
+                    Subido: ${uploadDate}
+                </div>
+                <div class="file-actions">
+                    <a href="${file.downloadURL}" class="action-btn download-btn" download="${file.name}" target="_blank">
+                        <svg class="icon icon-sm" viewBox="0 0 24 24">
+                            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                        </svg>
+                        Descargar
+                    </a>
+                    <button class="action-btn delete-btn" onclick="deleteFile('${file.id}', '${file.name}')">
+                        <svg class="icon icon-sm" viewBox="0 0 24 24">
+                            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                        </svg>
+                    </button>
+                </div>
+            `;
+
+            card.appendChild(preview);
+            card.appendChild(fileInfo);
+            return card;
+        }
+
+        function getFileType(mimeType) {
+            if (mimeType.startsWith('image/')) {
+                return 'image';
+            } else if (mimeType === 'application/pdf') {
+                return 'pdf';
+            } else if (mimeType.startsWith('video/')) {
+                return 'video';
+            } else if (mimeType.startsWith('audio/')) {
+                return 'audio';
+            } else if (
+                mimeType === 'application/msword' || 
+                mimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+                mimeType === 'application/vnd.ms-excel' ||
+                mimeType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+                mimeType === 'application/vnd.ms-powerpoint' ||
+                mimeType === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
+                mimeType === 'text/plain'
+            ) {
+                return 'document';
+            } else {
+                return 'other';
+            }
+        }
+
+        function getFileTypeLabel(fileType) {
+            const labels = {
+                'image': 'Imagen',
+                'pdf': 'PDF',
+                'video': 'Video',
+                'audio': 'Audio',
+                'document': 'Documento',
+                'other': 'Otro'
+            };
+            return labels[fileType] || 'Desconocido';
+        }
+
+        function deleteFile(fileId, fileName) {
+            if (confirm(`¿Está seguro que desea eliminar ${fileName}?`)) {
+                // Eliminar de Storage
+                storage.ref(`${STORAGE_FOLDER}/${fileName}`).delete()
+                    .then(() => {
+                        // Eliminar de la base de datos
+                        return database.ref(`${DATABASE_REF}/${fileId}`).remove();
+                    })
+                    .then(() => {
+                        console.log('Archivo eliminado correctamente');
+                        // Recargar la lista de archivos
+                        loadFiles();
+                    })
+                    .catch(error => {
+                        console.error('Error al eliminar archivo:', error);
+                        alert('Error al eliminar archivo: ' + error.message);
+                    });
+            }
+        }
+
+        function searchFiles() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredFiles = allFiles.filter(file => 
+                file.name.toLowerCase().includes(searchTerm)
+            );
+            
+            if (currentFilter === 'all') {
+                categorizeAndDisplayFiles(filteredFiles);
+            } else {
+                filterFiles(filteredFiles);
+            }
+        }
+
+        function filterFiles(files = allFiles) {
+            if (currentFilter === 'all') {
+                categorizeAndDisplayFiles(files);
+                return;
+            }
+            
+            const filteredFiles = files.filter(file => {
+                const fileType = getFileType(file.type);
+                return fileType === currentFilter;
+            });
+            
+            if (filteredFiles.length === 0) {
+                filesSections.innerHTML = '';
+                noFiles.style.display = 'block';
+                return;
+            }
+            
+            noFiles.style.display = 'none';
+            filesSections.innerHTML = '';
+            
+            const category = {
+                title: getFileTypeLabel(currentFilter) + 's',
+                files: filteredFiles
+            };
+            
+            createCategorySection(currentFilter, category.title, category.files);
+        }
+
+        function clearSearch() {
+            searchInput.value = '';
+            if (currentFilter === 'all') {
+                categorizeAndDisplayFiles(allFiles);
+            } else {
+                filterFiles();
+            }
+        }
+
+        // Funciones para la sección de subida de archivos
+        function handleFiles(files) {
+            Array.from(files).forEach(file => {
+                uploadFile(file);
+            });
+        }
+
+        function uploadFile(file) {
+            // Crear elemento en la lista de archivos
+            const fileItem = document.createElement('div');
+            fileItem.className = 'upload-item';
+            
+            // Crear contenedor para la barra de progreso
+            const progressContainer = document.createElement('div');
+            progressContainer.className = 'progress-container';
+            
+            const progressBar = document.createElement('div');
+            progressBar.className = 'progress-bar';
+            
+            const progress = document.createElement('div');
+            progress.className = 'progress';
+            
+            progressBar.appendChild(progress);
+            progressContainer.appendChild(progressBar);
+            
+            fileItem.innerHTML = `
+                <div class="file-name">${file.name}</div>
+                <div class="file-size">${formatFileSize(file.size)}</div>
+                <div class="file-status">Preparando...</div>
+            `;
+            
+            fileItem.appendChild(progressContainer);
+            uploadList.insertBefore(fileItem, uploadList.firstChild);
+
+            // Crear referencia en Storage usando la carpeta definida
+            const storageRef = storage.ref(`${STORAGE_FOLDER}/${file.name}`);
+            
+            // Iniciar subida
+            const uploadTask = storageRef.put(file);
+
+            // Mostrar progreso
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    const progressValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    progress.style.width = progressValue + '%';
+                    fileItem.querySelector('.file-status').textContent = `${Math.round(progressValue)}%`;
+                },
+                (error) => {
+                    fileItem.querySelector('.file-status').textContent = 'Error: ' + error.message;
+                    fileItem.querySelector('.file-status').className = 'file-status error';
+                    console.error('Error:', error);
+                },
+                () => {
+                    // Subida completada
+                    uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                        // Guardar información en la base de datos
+                        const fileData = {
+                            name: file.name,
+                            size: file.size,
+                            type: file.type,
+                            uploadDate: firebase.database.ServerValue.TIMESTAMP,
+                            downloadURL: downloadURL
+                        };
+
+                        // Usar la referencia de base de datos definida
+                        database.ref(DATABASE_REF).push(fileData)
+                            .then(() => {
+                                fileItem.querySelector('.file-status').textContent = 'Completado';
+                                fileItem.querySelector('.file-status').className = 'file-status success';
+                                
+                                // Actualizar la lista de archivos en la otra pestaña
+                                loadFiles();
+                            })
+                            .catch(error => {
+                                console.error('Error al guardar en la base de datos:', error);
+                                fileItem.querySelector('.file-status').textContent = 'Error DB: ' + error.message;
+                                fileItem.querySelector('.file-status').className = 'file-status error';
+                            });
+                    });
+                }
+            );
+        }
+
+        // Funciones para herramientas administrativas
+        function showDeleteSpecificFileModal() {
+            document.getElementById('deleteFileModal').style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function deleteSpecificFileFromModal() {
+            const fileName = document.getElementById('specificFileName').value.trim();
+            if (fileName) {
+                deleteSpecificFile(fileName);
+                closeModal('deleteFileModal');
+            } else {
+                alert('Por favor, ingrese un nombre de archivo válido.');
+            }
+        }
+
+        function deleteSpecificFile(fileName) {
+            if (confirm(`¿Está seguro que desea eliminar "${fileName}"?`)) {
+                // Primero, intentar eliminar el archivo de Storage
+                const storageRef = storage.ref(`${STORAGE_FOLDER}/${fileName}`);
+                
+                storageRef.delete()
+                    .then(() => {
+                        console.log(`Archivo "${fileName}" eliminado de Storage correctamente`);
+                        
+                        // Buscar y eliminar la entrada correspondiente en la base de datos
+                        return findAndDeleteFileFromDatabase(fileName);
+                    })
+                    .catch(error => {
+                        console.error(`Error al eliminar "${fileName}" de Storage:`, error);
+                        
+                        // Si hay un error, intentar eliminar usando un método alternativo
+                        if (error.code === 'storage/object-not-found') {
+                            alert(`El archivo "${fileName}" no se encontró en Storage. Intentando eliminar solo de la base de datos.`);
+                            return findAndDeleteFileFromDatabase(fileName);
+                        } else {
+                            // Para otros errores, intentar un método más directo
+                            console.log('Intentando método alternativo de eliminación...');
+                            const alternativeRef = firebase.storage().ref().child(`${STORAGE_FOLDER}/${fileName}`);
+                            return alternativeRef.delete()
+                                .then(() => {
+                                    console.log('Eliminación alternativa exitosa');
+                                    return findAndDeleteFileFromDatabase(fileName);
+                                })
+                                .catch(altError => {
+                                    console.error('Error en método alternativo:', altError);
+                                    alert(`Error al eliminar "${fileName}": ${altError.message}`);
+                                });
+                        }
+                    });
+            }
+        }
+
+        function findAndDeleteFileFromDatabase(fileName) {
+            // Buscar el archivo en la base de datos por nombre
+            return database.ref(DATABASE_REF).orderByChild('name').equalTo(fileName).once('value')
+                .then(snapshot => {
+                    if (snapshot.exists()) {
+                        // Encontró el archivo, ahora eliminar todas las entradas que coincidan
+                        const promises = [];
+                        snapshot.forEach(childSnapshot => {
+                            promises.push(database.ref(`${DATABASE_REF}/${childSnapshot.key}`).remove());
+                        });
+                        
+                        return Promise.all(promises);
+                    } else {
+                        console.log(`No se encontró "${fileName}" en la base de datos`);
+                        return Promise.resolve();
+                    }
+                })
+                .then(() => {
+                    alert(`El archivo "${fileName}" ha sido eliminado correctamente.`);
+                    loadFiles();
+                })
+                .catch(error => {
+                    console.error('Error al eliminar de la base de datos:', error);
+                    alert(`Error al eliminar de la base de datos: ${error.message}`);
+                });
+        }
+
+        function listAllStorageFiles() {
+            const modal = document.getElementById('fileListModal');
+            const container = document.getElementById('fileListContainer');
+            
+            modal.style.display = 'flex';
+            container.innerHTML = '<div class="spinner"></div><p>Cargando lista de archivos...</p>';
+            
+            // Listar todos los archivos en Storage
+            const storageRef = storage.ref(STORAGE_FOLDER);
+            
+            storageRef.listAll()
+                .then(result => {
+                    container.innerHTML = '';
+                    
+                    if (result.items.length === 0) {
+                        container.innerHTML = '<p>No se encontraron archivos en Storage.</p>';
+                        return;
+                    }
+                    
+                    const fileList = document.createElement('ul');
+                    fileList.style.listStyle = 'none';
+                    fileList.style.padding = '0';
+                    
+                    result.items.forEach(item => {
+                        const listItem = document.createElement('li');
+                        listItem.style.padding = '10px';
+                        listItem.style.borderBottom = '1px solid #eee';
+                        listItem.style.display = 'flex';
+                        listItem.style.justifyContent = 'space-between';
+                        listItem.style.alignItems = 'center';
+                        
+                        const fileName = document.createElement('span');
+                        fileName.textContent = item.name;
+                        fileName.style.wordBreak = 'break-all';
+                        
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.className = 'admin-btn danger';
+                        deleteBtn.style.marginLeft = '10px';
+                        deleteBtn.style.padding = '5px 10px';
+                        deleteBtn.style.minWidth = '80px';
+                        deleteBtn.textContent = 'Eliminar';
+                        deleteBtn.onclick = () => deleteSpecificFile(item.name);
+                        
+                        listItem.appendChild(fileName);
+                        listItem.appendChild(deleteBtn);
+                        fileList.appendChild(listItem);
+                    });
+                    
+                    container.appendChild(fileList);
+                })
+                .catch(error => {
+                    console.error('Error al listar archivos:', error);
+                    container.innerHTML = `<p>Error al listar archivos: ${error.message}</p>`;
+                });
+        }
+
+        function syncDatabaseWithStorage() {
+            if (confirm('¿Está seguro que desea sincronizar la base de datos con Storage? Esto puede tomar tiempo.')) {
+                // Obtener todos los archivos de Storage
+                const storageRef = storage.ref(STORAGE_FOLDER);
+                
+                storageRef.listAll()
+                    .then(result => {
+                        // Obtener todos los archivos de la base de datos
+                        return database.ref(DATABASE_REF).once('value')
+                            .then(snapshot => {
+                                const dbFiles = {};
+                                if (snapshot.exists()) {
+                                    snapshot.forEach(child => {
+                                        dbFiles[child.val().name] = {
+                                            id: child.key,
+                                            ...child.val()
+                                        };
+                                    });
+                                }
+                                
+                                return { storageFiles: result.items, dbFiles };
+                            });
+                    })
+                    .then(({ storageFiles, dbFiles }) => {
+                        const promises = [];
+                        
+                        // Eliminar archivos de la base de datos que ya no existen en Storage
+                        Object.keys(dbFiles).forEach(fileName => {
+                            const exists = storageFiles.some(item => item.name === fileName);
+                            if (!exists) {
+                                promises.push(
+                                    database.ref(`${DATABASE_REF}/${dbFiles[fileName].id}`).remove()
+                                        .then(() => console.log(`Eliminado de DB: ${fileName}`))
+                                );
+                            }
+                        });
+                        
+                        // Añadir archivos de Storage que no están en la base de datos
+                        storageFiles.forEach(item => {
+                            if (!dbFiles[item.name]) {
+                                promises.push(
+                                    item.getDownloadURL()
+                                        .then(url => {
+                                            return item.getMetadata()
+                                                .then(metadata => {
+                                                    const fileData = {
+                                                        name: item.name,
+                                                        size: metadata.size,
+                                                        type: metadata.contentType,
+                                                        uploadDate: metadata.timeCreated ? new Date(metadata.timeCreated).getTime() : Date.now(),
+                                                        downloadURL: url
+                                                    };
+                                                    
+                                                    return database.ref(DATABASE_REF).push(fileData)
+                                                        .then(() => console.log(`Añadido a DB: ${item.name}`));
+                                                });
+                                        })
+                                );
+                            }
+                        });
+                        
+                        return Promise.all(promises);
+                    })
+                    .then(() => {
+                        alert('Sincronización completada correctamente.');
+                        loadFiles();
+                    })
+                    .catch(error => {
+                        console.error('Error en la sincronización:', error);
+                        alert(`Error en la sincronización: ${error.message}`);
+                    });
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Audios - Material de Estudio</title>
+    <link rel="icon" href="img/mr-jes-logo.png" type="image/png">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; max-width: 900px; margin: 0 auto; padding: 30px; }
+        h1 { color: #4a6ea9; text-align: center; margin-bottom: 30px; }
+        .audio-list { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+        .audio-card { background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 20px; width: 350px; display: flex; flex-direction: column; align-items: center; }
+        .audio-title { font-weight: bold; margin-bottom: 10px; text-align: center; }
+        .audio-meta { color: #666; font-size: 0.9em; margin-bottom: 10px; text-align: center; }
+        .audio-player { width: 100%; margin-bottom: 10px; }
+        .download-btn { background: #4a6ea9; color: #fff; border: none; border-radius: 20px; padding: 8px 20px; cursor: pointer; font-size: 1em; text-decoration: none; }
+        .download-btn:hover { background: #3d5a8a; }
+        .no-files { text-align: center; color: #888; margin-top: 40px; }
+    </style>
+</head>
+<body>
+    <h1>Audios - Material de Estudio</h1>
+    <div id="audioList" class="audio-list"></div>
+    <div id="noFiles" class="no-files" style="display:none;">No hay archivos de audio disponibles.</div>
+    <script>
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCrXGgSiRHjTGg8Ve3h7PhkM0hcWlORhcw",
+            authDomain: "ingles-trabajo-colegio.firebaseapp.com",
+            databaseURL: "https://ingles-trabajo-colegio-default-rtdb.firebaseio.com",
+            projectId: "ingles-trabajo-colegio",
+            storageBucket: "ingles-trabajo-colegio.firebasestorage.app",
+            messagingSenderId: "801926533630",
+            appId: "1:801926533630:web:2fde3d43a404da7e2730af"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const DATABASE_REF = 'material-estudio';
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function loadAudios() {
+            const audioList = document.getElementById('audioList');
+            const noFiles = document.getElementById('noFiles');
+            audioList.innerHTML = '';
+            noFiles.style.display = 'none';
+
+            database.ref(DATABASE_REF).once('value', (snapshot) => {
+                let found = false;
+                snapshot.forEach(child => {
+                    const file = child.val();
+                    if (file.type && file.type.startsWith('audio/')) {
+                        found = true;
+                        const card = document.createElement('div');
+                        card.className = 'audio-card';
+                        card.innerHTML = `
+                            <div class="audio-title">${file.name}</div>
+                            <div class="audio-meta">
+                                Tamaño: ${formatFileSize(file.size)}<br>
+                                Subido: ${new Date(file.uploadDate).toLocaleString()}
+                            </div>
+                            <audio class="audio-player" controls src="${file.downloadURL}"></audio>
+                            <a class="download-btn" href="${file.downloadURL}" download="${file.name}">Descargar</a>
+                        `;
+                        audioList.appendChild(card);
+                    }
+                });
+                if (!found) noFiles.style.display = 'block';
+            });
+        }
+        document.addEventListener('DOMContentLoaded', loadAudios);
+    </script>
+</body>
+</html>
